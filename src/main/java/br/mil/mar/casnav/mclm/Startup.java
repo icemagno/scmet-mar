@@ -12,12 +12,9 @@ import org.apache.commons.io.FileUtils;
 import br.mil.mar.casnav.mclm.misc.Configurator;
 import br.mil.mar.casnav.mclm.misc.PathFinder;
 import br.mil.mar.casnav.mclm.persistence.entity.Config;
-import br.mil.mar.casnav.mclm.persistence.entity.NodeData;
 import br.mil.mar.casnav.mclm.persistence.exceptions.NotFoundException;
 import br.mil.mar.casnav.mclm.persistence.infra.ConnFactory;
 import br.mil.mar.casnav.mclm.persistence.services.ConfigService;
-import br.mil.mar.casnav.mclm.persistence.services.DictionaryService;
-import br.mil.mar.casnav.mclm.persistence.services.NodeService;
 
 
 @WebListener
@@ -32,8 +29,6 @@ public class Startup implements ServletContextListener {
 
     	try {
        
-    		
-    		//SimulatorController.init();
     		
     		String imagesPath = PathFinder.getInstance().getPath() + "/tempmaps/";
     		FileUtils.deleteDirectory( new File(imagesPath) );
@@ -60,42 +55,8 @@ public class Startup implements ServletContextListener {
 				Config cfg = cs.getConfig();  
 				Configurator.getInstance().updateConfiguration( cfg );
     		} catch ( NotFoundException e ) {
-    			System.out.println("Nenhum registro encontrado na tabela de configuração.");
+    			System.out.println("Nenhum registro encontrado na tabela de configura��o.");
     		}
-    		
-    		
-    		NodeService ns = new NodeService();
-    		NodeData node = ns.getFeicaoRootNode();
-			Configurator.getInstance().setFeicaoRootNode( node );
-    		
-    		// Verifica novamente se todas as camadas estao com o dicionario carregado.
-    		// Pode acontecer de no momento do cadastro da camada o link WMS esteja 
-    		// fora do ar e não seja possivel buscar os atributos, entao tentamos novamente agora
-    		// O ideal seria deixar para o usuario atualizar isso quando necessario.
-    		
-    		if ( config.getConfig().getScanDictAtStartup() ) {
-    			System.out.println("Atualização de dicionario solicitada...");
-    			DictionaryService ds = new DictionaryService();
-    			ds.scanDictionary();
-    			System.out.println("Fim da atualização de dicionario.");
-			
-    		}
-			
-			// TEMP!
-    		/*
-			for( NodeData node : nodes ) {
-				if ( node.getLayerType() == LayerType.FEI ) {
-					String layerName = node.getLayerName();
-					
-					System.out.println("Processando Layer: " + layerName );
-					
-					//ns.newTransaction();
-					//ns.updateNode(node);
-					
-					
-				}
-			}
-			*/
     		
 		} catch (Exception e) { 
 			e.printStackTrace(); 
@@ -106,8 +67,7 @@ public class Startup implements ServletContextListener {
 	
 	@Override
     public void contextDestroyed(ServletContextEvent event) {
-		
-		System.out.println("Desligando MCLM.");
+		System.out.println("Desligando SCMET.");
 		/*
 		try {
 			scheduler.shutdownNow();

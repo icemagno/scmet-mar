@@ -2,9 +2,7 @@ package br.mil.mar.casnav.mclm.misc;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -25,11 +23,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import br.mil.mar.casnav.mclm.persistence.entity.NodeData;
-import br.mil.mar.casnav.mclm.persistence.entity.Scenery;
-import br.mil.mar.casnav.mclm.persistence.entity.SceneryNode;
-import br.mil.mar.casnav.mclm.persistence.services.SceneryService;
 
 
 public class PDFCreator {
@@ -74,6 +67,7 @@ public class PDFCreator {
 		List<Image> thumbs = new ArrayList<Image>();
 		document.add( new Paragraph("\n\n\n\n") );
 		if ( idCenario > -1 ) {
+			/*
 			SceneryService ss = new SceneryService();
 			Scenery scenery = ss.getScenery( idCenario );
 			
@@ -103,25 +97,6 @@ public class PDFCreator {
 				NodeData theLayer = node.getLayer();
 				String layerAlias = theLayer.getLayerAlias();
 
-				// Pega os atributos de camadas WMS
-				// Decidi não pegar porque teria que trazer todos os atributos de todos os elementos WMS 
-				// da camada no mapa e isso poderia consumir muito tempo, dando timeout no browser.
-				/*
-				if ( theLayer.getLayerType() == LayerType.WMS  ) {
-					String layerUrl = theLayer.getServer().getUrl();
-					String layerName = theLayer.getLayerName();
-					
-					String url= layerUrl + "?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&QUERY_LAYERS=" + layerName + "&layers=" + layerName +
-							"&buffer=100&INFO_FORMAT=application/json&FEATURE_COUNT=500&X=65&Y=20&BBOX=" + bbox + "&WIDTH=256&HEIGHT=256";
-					
-					String features = wc.doGet( url );
-					pdfLayerProperties.add( getLayerProperties(features, layerAlias ) );
-				}
-				*/	
-				
-				
-				
-				// Pega os atributos de Feições
 				if ( theLayer.getLayerType() == LayerType.FEI  ) {
 					String metadados = theLayer.getFeicao().getMetadados();
 					pdfLayerProperties.add( getLayerProperties( metadados, layerAlias ) );
@@ -151,7 +126,7 @@ public class PDFCreator {
 				document.add( getParagraph(0, "    " + baseMap + " ( Camada de fundo )", footerFont) );
 				thumbs.add( thumbMain );
 			}
-			
+			*/
 		} else {
 			document.add( getParagraph(0, "Nenhum cenário definido." , footerFont) );
 		}

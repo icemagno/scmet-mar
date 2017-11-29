@@ -15,7 +15,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import br.mil.mar.casnav.mclm.persistence.entity.Config;
-import br.mil.mar.casnav.mclm.persistence.entity.NodeData;
 
 
 
@@ -27,61 +26,9 @@ public class Configurator {
 	private String databaseName;
 	private String databaseAddr;
 	private String databasePort;
-
-	private String apoloRESTAddress;
-	private String apoloUserName;
-	private String apoloPassword;
-	private String apoloDatabaseName;
-	private String apoloDatabaseAddr;
-	private String apoloDatabasePort;
-	
-	private String aisApiKey;	
-	private String aisApiPass;	
-	
-	public String getAisApiKey() {
-		return aisApiKey;
-	}
-
-	public String getAisApiPass() {
-		return aisApiPass;
-	}
-
-	public String getApoloRESTAddress() {
-		return apoloRESTAddress;
-	}
-
-	public String getApoloUserName() {
-		return apoloUserName;
-	}
-
-	public String getApoloPassword() {
-		return apoloPassword;
-	}
-
-	public String getApoloDatabaseName() {
-		return apoloDatabaseName;
-	}
-
-	public String getApoloDatabaseAddr() {
-		return apoloDatabaseAddr;
-	}
-
-	public String getApoloDatabasePort() {
-		return apoloDatabasePort;
-	}
-
-
 	private Config config;
-	private NodeData feicaoRootNode;
 	
-	public NodeData getFeicaoRootNode() {
-		return feicaoRootNode;
-	}
-
-	public void setFeicaoRootNode(NodeData feicaoRootNode) {
-		this.feicaoRootNode = feicaoRootNode;
-	}
-
+	
 	public void setJavaProxy() throws Exception {
 		if ( !useProxy() ) return;		
 		String proxyHost = getProxyHost();
@@ -247,7 +194,7 @@ public class Configurator {
 	
 	
 	public void loadMainConfig()  {
-		NodeList mapconfig = doc.getElementsByTagName("mclm");
+		NodeList mapconfig = doc.getElementsByTagName("scmet");
 		Node mpconfig = mapconfig.item(0);
 		Element mpElement = (Element) mpconfig;
 		try {
@@ -256,17 +203,6 @@ public class Configurator {
 			databaseName = getTagValue("databaseName", mpElement);
 			databaseAddr = getTagValue("databaseAddr", mpElement);
 			databasePort = getTagValue("databasePort", mpElement);
-			
-			apoloRESTAddress = getTagValue("apoloRESTAddress", mpElement);
-			apoloUserName = getTagValue("apoloUserName", mpElement);
-			apoloPassword = getTagValue("apoloPassword", mpElement);
-			apoloDatabaseName = getTagValue("apoloDatabaseName", mpElement);
-			apoloDatabaseAddr = getTagValue("apoloDatabaseAddr", mpElement);
-			apoloDatabasePort = getTagValue("apoloDatabasePort", mpElement);
-			
-			aisApiKey = getTagValue("aisApiKey", mpElement);
-			aisApiPass = getTagValue("aisApiPass", mpElement);
-			
 		} catch ( Exception e ) {
 			System.out.println( e.getMessage() );
 		}

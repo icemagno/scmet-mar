@@ -7,33 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes">
 	<link href="img/favicon.png" type="image/png" rel="shortcut icon" />
 
-    <title>Módulo de Cenários Logísticos e de Mobilização - MCLM</title>
+    <title>SCMET Brasil</title>
 
 	<script type="text/javascript" src="extjs/ext-all.js"></script>
 	
 	<script type="text/javascript" src="extjs/classic/theme-gray/theme-gray.js"></script>
 	<link rel="stylesheet" type="text/css" href="extjs/classic/theme-gray/resources/theme-gray-all.css">
-
-	<!-- 
-	<link rel="stylesheet" type="text/css" href="extjs/classic/theme-green/resources/Sisclaten-all.css">
-	 -->
-	
 	<script type="text/javascript" src="app.js"></script>
 
 <!-- JQUERY -->
 	<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 	
 <!-- OPENLAYERS -->
-<!-- 	
 	<script type="text/javascript" src="js/ol.js"></script>
-	
 	<link rel="stylesheet" href="css/ol.css" type="text/css">
- 	-->
 
-<!-- CESIUM -->
-	<script type="text/javascript" src="js/ol-cesium-v1.31/Cesium/Cesium.js"></script>
-	<script type="text/javascript" src="js/ol-cesium-v1.31/olcesium.js"></script>
-	<link rel="stylesheet" href="js/ol-cesium-v1.31/ol.css" type="text/css">
 
 <!-- OL3 EXT -->
 	
@@ -41,16 +29,11 @@
 	<link rel="stylesheet" href="css/ol3-ext.min.css" type="text/css">
 	
 
-<!-- COLOR PICKER -->
-	<link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
-	<script type="text/javascript" src="js/colorpicker.js"></script>
-
 <!-- JSTS -->
 	<script type="text/javascript" src="js/jsts.min.js"></script>
 
 <!-- INTERNO -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src="js/websocket.js"></script>	
 		
 		
 <script type="text/javascript" charset="utf-8">

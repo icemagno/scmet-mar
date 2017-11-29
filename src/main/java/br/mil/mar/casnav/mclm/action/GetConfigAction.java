@@ -21,7 +21,6 @@ import br.mil.mar.casnav.mclm.persistence.services.ConfigService;
 public class GetConfigAction extends BasicActionClass {
 	
 	public String execute(){
-
 		try { 
 			
 			String config = new ConfigService().getAsJson( getLoggedUser() );

@@ -731,21 +731,6 @@ Ext.define('MCLM.Map', {
 			    
 			});
 			
-			MCLM.Map.aircraftHelper = Ext.create('MCLM.view.aircraft.AircraftHelper');
-			MCLM.Map.aircraftHelper.init();
-			setInterval( MCLM.Map.updateAeroTraffic , 10000); // 10 segundos			
-
-			MCLM.Map.shipsHelper = Ext.create('MCLM.view.ships.ShipsHelper');
-			MCLM.Map.shipsHelper.init();
-			//setInterval( MCLM.Map.updateMaritmTraffic , 2000); // 300000 = 5 minutos			
-			
-			MCLM.Map.onibusHelper = Ext.create('MCLM.view.onibus.OnibusHelper');
-			MCLM.Map.onibusHelper.init();			
-			setInterval( MCLM.Map.updateBusTraffic , 30000); // 60 segundos			
-
-			
-			MCLM.Map.createSceneryInfoLayer();
-			
 		},
 		
 		toggleMagnify : function() {
@@ -1751,15 +1736,6 @@ Ext.define('MCLM.Map', {
 			MCLM.Map.removeFromLayerStack( serialId );
 		},
 	
-		// --------------------------------------------------------------------------------------------
-		// Liga/ Desliga o mapa de base
-		toggleBaseLayer : function() {
-			if ( MCLM.Map.baseLayer.getVisible() ) {
-				MCLM.Map.baseLayer.setVisible(false);
-			} else {
-				MCLM.Map.baseLayer.setVisible(true);
-			}
-		},		
 		// --------------------------------------------------------------------------------------------
 		// Busca o indice de uma camada no mapa dado o seu nome
 		indexOf : function (layers, layer) {
