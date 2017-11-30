@@ -18,10 +18,33 @@ Ext.define('MCLM.view.aviso.AvisoForm', {
     
     url: 'saveAviso',
     items: [{
-            fieldLabel: 'Número',
-            name: 'numero',
-            allowBlank : true,
-            invalidText: 'Teste',
+        fieldLabel: 'Número',
+        name: 'numero',
+        allowBlank : false,
+    },{
+        fieldLabel: 'Título',
+        name: 'titulo',
+        allowBlank : false,
+    },{
+        fieldLabel: 'Emissão',
+        name: 'emissao',
+        allowBlank : false,
+    },{
+        fieldLabel: 'Título',
+        name: 'titulo',
+        allowBlank : false,
+    },{
+        fieldLabel: 'Texto',
+        name: 'texto',
+        allowBlank : false,
+    },{
+        fieldLabel: 'Validade',
+        name: 'validade',
+        allowBlank : false,
+    },{
+        fieldLabel: 'Complemento',
+        name: 'complemento',
+        allowBlank : true,
     }],
 
         

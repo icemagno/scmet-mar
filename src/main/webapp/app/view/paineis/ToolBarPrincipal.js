@@ -11,15 +11,14 @@ Ext.define('MCLM.view.paineis.ToolBarPrincipal', {
     
     
     
-    items: [{
-    	// Config
+    items: [/*{
     	xtype: 'button',
 		id: 'id111',
 	    width: MCLM.Globals.btnWidth,
 	    height: MCLM.Globals.btnHeight,
 	    iconCls: 'setting-icon',
 	    handler : 'showConfig',
-    },{ 
+    },*/{ 
     	// Grade de coordenadas
     	xtype: 'button',
     	id: 'id115',

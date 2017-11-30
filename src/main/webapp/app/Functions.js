@@ -149,13 +149,13 @@ Ext.define('MCLM.Functions', {
 		inicializaDicas : function() {
 			Ext.tip.QuickTipManager.init();
 
-			Ext.tip.QuickTipManager.register({
+			Ext.tip.QuickTipManager.register(/*{
 						target: 'id111',
 						title: 'Configurações',
 						text: 'Configura aspectos gerais do sistema.',
 						width: 150,
 						dismissDelay: 5000 
-					},{
+					},*/{
 						target: 'id115',
 						title: 'Grade Auxiliar',
 						text: 'Exibe a grade auxiliar do mapa.',
@@ -170,7 +170,7 @@ Ext.define('MCLM.Functions', {
 					},{
 						target: 'drawFeicaoBtn',
 						title: 'Inserir Aviso',
-						text: 'Cria um novo Aviso de Mal Tempo.',
+						text: 'Cria um novo Aviso de Mau Tempo.',
 						width: 150,
 						dismissDelay: 5000 
 					},{

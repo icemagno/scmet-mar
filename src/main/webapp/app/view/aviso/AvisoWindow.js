@@ -12,7 +12,7 @@ Ext.define('MCLM.view.aviso.AvisoWindow', {
 	xtype: 'avisoWindow',
 	title : "Novo Aviso",
 	width : 350,
-	height: 350,
+	height: 300,
 	
 	layout : 'fit',
 	constrain: true,
