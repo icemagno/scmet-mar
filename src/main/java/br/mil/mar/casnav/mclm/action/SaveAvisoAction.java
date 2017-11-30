@@ -11,7 +11,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.opensymphony.xwork2.ActionContext;
 
-import br.mil.mar.casnav.mclm.persistence.entity.Config;
 import br.mil.mar.casnav.mclm.persistence.services.ConfigService;
 
 @Action(value="saveAviso", results= {  
@@ -37,16 +36,16 @@ public class SaveAvisoAction extends BasicActionClass {
 
 				String mapBackgroudColor = request.getParameter("mapBackgroudColor");
 				boolean scanDictAtStartup = Boolean.valueOf( request.getParameter("scanDictAtStartup") );
-				
+				/*
 				Config config = new Config(idConfig, geoserverUrl, baseLayer, useProxy, externalLayersToLocalServer, externalWorkspaceName, 
 							proxyHost, nonProxyHosts, proxyUser, proxyPassword, proxyPort, geoserverUser, 
 							geoserverPassword, mapZoom, queryFactorRadius, mapCenter, shapeFileTargetPath, 
 							routingServer, routingUser, routingPassword, routingPort, routingDatabase,	
 							apoloServer, distanceFromRoute, symbolServerURL, servicosCptecUrl, mapBackgroudColor,scanDictAtStartup);	
-				
+				*/
 				
 				ConfigService cs = new ConfigService();
-				cs.updateConfig(config);
+				//cs.updateConfig(config);
 				
 			} catch ( Exception e ) {
 				result = "{ \"error\": true, \"msg\": \"" + e.getMessage() + ".\" }";
