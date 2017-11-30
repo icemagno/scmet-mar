@@ -68,6 +68,94 @@ Ext.define('MCLM.Map', {
 		editFeicaoStyle : null,
 		editFeicaoOldStyle : null,
 		
+		loadAvisosAtivos : function() {
+			console.log('Falta ler os avisos ativos!')
+		},
+		
+		loadAreasMauTempo : function() {
+
+			var getStyle = function( feature, resolution ) {
+				var resultStyles = [];
+				var featureGeomType = feature.getGeometry().getType();
+				var props = feature.getProperties();
+				var label = props.id;
+
+	        	var hexColor = "#ffbd30";
+	        	var newColor = ol.color.asArray(hexColor);
+	        	newColor = newColor.slice();
+	        	newColor[3] = 0.2;				
+				
+				
+	        	var mauTempoStyle = new ol.style.Style({
+					fill: new ol.style.Fill({
+						color: newColor,
+					}),
+					stroke: new ol.style.Stroke({
+						color:  "#ffbd30",
+						width:  1, 
+					}),
+		            text: new ol.style.Text({
+		                text: label,
+		                scale : 1,
+		                textAlign : 'center', 
+		                textBaseline : 'middle', 
+		                stroke: new ol.style.Stroke({
+		                	color: "#ffffff",
+		                	width: 2
+		                }),				                
+		                fill: new ol.style.Fill({
+		                    color: "#000000"
+		                }),
+		            })
+					
+				});			
+
+	        	resultStyles.push( mauTempoStyle );
+	        	return resultStyles;
+			};	
+	        
+			
+			
+            Ext.Ajax.request({
+                url: 'getAreasMauTempo',
+                method: 'get',
+                success: function (response, opts) {
+                    var featuresObj = Ext.decode(response.responseText);
+                    var vectorSource = new ol.source.Vector();
+
+                    if( featuresObj.features === null ) {
+                        return true;
+                    }
+
+                    var features = new ol.format.GeoJSON().readFeatures(featuresObj, {
+                        featureProjection: 'EPSG:4326'
+                    });
+                    
+                    for ( var i = 0; i < features.length; i++ ) {
+                        features[i].set('layerName','areasMauTempo');
+                        vectorSource.addFeature( features[i] );
+                    }                     
+                    
+                    var vectorLayer = new ol.layer.Vector({
+                        source: vectorSource,
+                        style: getStyle
+                    }); 
+                    
+                    vectorLayer.set('name', 'areasMauTempo');
+                    
+                    MCLM.Map.theView.fit(vectorSource.getExtent(), {duration: 1500, maxZoom: 12});
+                    MCLM.Map.removeLayerByName('areasMauTempo');
+                    MCLM.Map.map.addLayer(vectorLayer);                    
+                    
+                },
+                failure: function(conn, response, options, eOpts) {
+                    //
+                }            
+            
+            });			
+			
+			
+		},
 		
 		saveEditFeicao : function() {
 			var sourceFeatures = MCLM.Map.editingFromSource.getFeatures();
@@ -731,6 +819,9 @@ Ext.define('MCLM.Map', {
 			    
 			});
 			
+			
+			MCLM.Map.loadAreasMauTempo();
+			MCLM.Map.loadAvisosAtivos();
 		},
 		
 		toggleMagnify : function() {
