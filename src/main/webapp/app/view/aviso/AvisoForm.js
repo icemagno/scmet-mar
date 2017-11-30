@@ -50,10 +50,10 @@ Ext.define('MCLM.view.aviso.AvisoForm', {
         
     buttons: [{
           text: 'Fechar',
-          handler: 'onCloseConfigForm'
+          handler: 'onCloseAvisoForm'
     },{
           text: 'Gravar',
-          handler : 'onSubmitConfigForm'
+          handler : 'onSubmitAvisoForm'
     }],
     
     listeners: {

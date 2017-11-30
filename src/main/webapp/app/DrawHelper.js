@@ -15,6 +15,29 @@ Ext.define('MCLM.DrawHelper', {
 		modify : null,
 		creating : false,
 		
+		
+		finish : function() {
+            var me = MCLM.DrawHelper;
+            if ( me.draw ) MCLM.Map.map.removeInteraction( me.draw );
+            MCLM.Map.removeLayerByName('drawableLayer');
+            me.drawedFeature = null;
+            me.draw = null;
+            me.vectorSource = null;
+            me.activeDrawableLayer = null;
+            me.drawing = false;
+            me.creating = false;
+            if ( me.pointermoveEvt ) {
+                ol.Observable.unByKey( me.pointermoveEvt );
+            };                    
+            if ( me.mapClickEvt ) {
+                ol.Observable.unByKey( me.mapClickEvt );
+            }; 
+            
+            if ( me.modify ) MCLM.Map.map.removeInteraction( me.modify );
+            me.modify = null;
+			
+		},
+		
 		init : function() {
             var me = MCLM.DrawHelper;
             

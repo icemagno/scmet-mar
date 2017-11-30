@@ -4,16 +4,17 @@ Ext.define('MCLM.view.aviso.AvisoController', {
     
     onCloseAvisoForm : function( button ) {
     	var avisoWindow = Ext.getCmp('avisoWindow');
-    	avisoWindow.close();    	
+    	avisoWindow.close();    
+    	MCLM.DrawHelper.finish();
     },
     
     onCloseMessage : function( ) {
     	var avisoWindow = Ext.getCmp('avisoWindow');
-    	avisoWindow.close();  
-    	location.reload();
+    	avisoWindow.close();    
+    	MCLM.DrawHelper.finish();
     },
     
-	onSubmitConfigForm : function( button ) {
+	onSubmitAvisoForm : function( button ) {
 		var me = this;
 	
 		var form = button.up('form').getForm();
