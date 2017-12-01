@@ -13,7 +13,7 @@ import br.mil.mar.casnav.mclm.persistence.services.AvisoService;
 
 
 
-@Action(value="getAvisosVigentesRSS", results= {  
+@Action(value="rss", results= {  
 	    @Result(name="ok", type="httpheader", params={"status", "200"}) }
 )   
 

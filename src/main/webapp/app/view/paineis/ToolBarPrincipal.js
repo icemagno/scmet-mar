@@ -64,5 +64,19 @@ Ext.define('MCLM.view.paineis.ToolBarPrincipal', {
     	xtype: 'button',
     	id: 'measureToolID',
         handler : 'showMeasureTool'
+    },{
+    	iconCls: 'storm-icon',
+	    width: MCLM.Globals.btnWidth,
+	    height: MCLM.Globals.btnHeight,
+    	xtype: 'button',
+    	id: 'coberturaID',
+        handler : 'showCobertura'
+    },{
+    	iconCls: 'storm-icon',
+	    width: MCLM.Globals.btnWidth,
+	    height: MCLM.Globals.btnHeight,
+    	xtype: 'button',
+    	id: 'inmetGoesID',
+        handler : 'showInmetGoes'
     }]
 });

@@ -60,7 +60,8 @@ Ext.define('MCLM.Application', {
 				/* 2. */ Ext.create('MCLM.view.main.TelaPrincipal');	//
 				
 				/* 3. */ MCLM.Functions.inicializaDicas();			// As dicas dos botoes precisam dos botoes instanciados
-
+				
+				/* 4. */ MCLM.Functions.loadCoberturaImages();
 		        // ---------------------------------------------
 			},
 			failure: function(response, opts) {

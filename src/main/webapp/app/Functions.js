@@ -2,6 +2,52 @@ Ext.define('MCLM.Functions', {
 
 	statics: {
 		countLog : 0,
+		coberturaImages00Hmg : [],
+		coberturaImages12Hmg : [],
+		coberturaIndex : 0,
+		coberturaTimer : null,
+		horario : '00HMG',
+		coberturaTitle : 'Cobertura de Nuvens',
+		
+		coberturaAnimate : function() {
+			console.log( MCLM.Functions.coberturaIndex );
+			
+			var	sliderWindow = Ext.getCmp('sliderWindow');
+			if ( !sliderWindow ) {
+				clearInterval( MCLM.Functions.coberturaTimer );
+				return true;
+			}
+			
+			var who = MCLM.Functions.coberturaImages00Hmg;
+			if ( MCLM.Functions.horario === '12HMG' ) {
+				who = MCLM.Functions.coberturaImages12Hmg;
+			}
+			
+			var img = "<div style='background-color:#ffffff;padding:10px;width:100%;height:30px' id='modeloTitle'>"+MCLM.Functions.coberturaTitle+" : Inic. "+MCLM.Functions.horario+"</div><img style='width:100%;height:95%' src='" + who[MCLM.Functions.coberturaIndex] + "'>";
+			sliderWindow.update( img );
+			MCLM.Functions.coberturaIndex++;
+			if ( MCLM.Functions.coberturaIndex >= MCLM.Functions.coberturaImages00Hmg.length ) {
+				MCLM.Functions.coberturaIndex = 0;
+			}
+		},
+		
+		loadCoberturaImages : function() {
+			
+			function pad(num, size) {
+			    var s = "000" + num;
+			    return s.substr(s.length-size);
+			}			
+			
+			var index = 0;
+			for ( x=0; x < 99; x=x+3) {
+				var fileImage = pad(x,3);
+				var fileName00H = 'https://www.mar.mil.br/dhn/chm/meteo/prev/modelos/figuras/metarea_v/00hmg/nebulos_total_'+fileImage+'.gif';
+				var fileName12H = 'https://www.mar.mil.br/dhn/chm/meteo/prev/modelos/figuras/metarea_v/12hmg/nebulos_total_'+fileImage+'.gif';
+				MCLM.Functions.coberturaImages00Hmg.push( fileName00H );
+				MCLM.Functions.coberturaImages12Hmg.push( fileName12H );
+			}
+			
+		},
 		
 		getClimaDesc : function( value ) {
 			var climaDesc = [];
@@ -98,26 +144,6 @@ Ext.define('MCLM.Functions', {
 			$("<tr><td>" + message + "</td></tr>").appendTo('#mainLogDisplayTable tbody').hide().fadeIn(2000);
 		},
 
-		showImages : function( imageList ) {
-			var imgArr = imageList.split(";");
-			
-			var table = "<table style='margin:0px;padding:0px;width:100%'>";
-			for ( img in imgArr ) {
-				var imgLink = "<img style='width:200px;height:200px' src='" + imgArr[img] + "'>";
-				table = table + "<tr><td>" + imgLink + "</td></tr>";
-			}
-			table = table + "</table>";
-			
-			
-			var	showImagesWindow = Ext.getCmp('showImagesWindow');
-			if ( !showImagesWindow ) {
-				showImagesWindow = Ext.create('MCLM.view.datawindow.ShowImagesWindow');
-			}
-			showImagesWindow.update( table );
-			showImagesWindow.show();
-			
-		},
-		
 		exibeClima : function( data, record ) {
 			var objRecord = Ext.decode( record.mclm_metadata_property );
 			var features = new ol.format.GeoJSON().readFeatures( objRecord , {
@@ -207,6 +233,18 @@ Ext.define('MCLM.Functions', {
 		    	        target: 'magnifyID',
 		    	        title: 'Liga / Desliga Lupa',
 		    	        text: 'Amplia a camada de base sobre qualquer camada ativa. A camada de base precisa estar ativada.',
+		    	        width: 180,
+		    	        dismissDelay: 5000 
+		    	    },{
+		    	        target: 'coberturaID',
+		    	        title: 'Cobertura de Nuvens',
+		    	        text: 'Exibe animação de cobertura de nuvens da CHN.',
+		    	        width: 180,
+		    	        dismissDelay: 5000 
+		    	    },{
+		    	        target: 'inmetGoesID',
+		    	        title: 'Animação INPE GOES',
+		    	        text: 'Exibe animação de satélite GOES do INPE.',
 		    	        width: 180,
 		    	        dismissDelay: 5000 
 		    	    }); 	

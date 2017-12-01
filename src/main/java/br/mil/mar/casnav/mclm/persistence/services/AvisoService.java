@@ -1,9 +1,21 @@
 package br.mil.mar.casnav.mclm.persistence.services;
 
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndContentImpl;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndEntryImpl;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.feed.synd.SyndFeedImpl;
+import com.rometools.rome.io.SyndFeedOutput;
 
 import br.mil.mar.casnav.mclm.misc.Configurator;
 import br.mil.mar.casnav.mclm.misc.UserTableEntity;
@@ -46,7 +58,7 @@ public class AvisoService {
     	String result = "";
 		String area = ute.getData("area");
 		String numero = ute.getData("numero");
-		String titulo = ute.getData("titulo");
+		//String titulo = ute.getData("titulo");
 		String texto = ute.getData("texto");
 		String validade = ute.getData("validade");
 		String complemento = ute.getData("complemento");
@@ -55,50 +67,66 @@ public class AvisoService {
 		result = result + "ÁREA " + area + "<br>";
 		result = result + "<br>";
 		result = result + "AVISO NR " + numero + "<br>";
-		result = result + titulo + "<br>";
+		//result = result + titulo + "<br>";
 		result = result + emissao + "<br>";
 		result = result + texto + "<br>";
 		result = result + validade + "<br>";
 		if( !complemento.equals("") ) {
 			result = result + complemento + "<br>";
 		}
-
-		result = result + validade + "<br><br><br>";
-		/*
-		
-		ÁREA ALFA
-		 
-		AVISO NR 1381/2017
-		AVISO DE VENTO FORTE
-		EMITIDO ÀS 1300 HMG - QUA - 29/NOV/2017
-		ÁREA ALFA A OESTE DE 049W PARTIR DE 301800 HMG. VENTO E/NE FORÇA 7 COM RAJADAS.
-		VÁLIDO ATÉ 020000 HMG.
-		SUBSTITUI		
-		
-		
-		*/
-		
 		return result;
     }
     
     public String getAvisosMauTempoVigentesRSS() throws Exception {
     	String sql = "select area,numero,titulo,texto,emissao,complemento,validade,ativo,id_aviso from avisos where ativo = true";
-    	String result = "";
 
     	Configurator cfg = Configurator.getInstance();
 		String connectionString = "jdbc:postgresql://" + cfg.getDatabaseAddr() +
 				":" + cfg.getDatabasePort() + "/" + cfg.getDatabaseName();
 		GenericService gs = new GenericService( connectionString, cfg.getUserName(), cfg.getPassword()  );
     	
+
+		
+        SyndFeed feed = new SyndFeedImpl();
+        feed.setFeedType("rss_2.0");
+
+        feed.setTitle("DIRETORIA DE HIDROGRAFIA E NAVEGAÇÃO | CENTRO DE HIDROGRAFIA DA MARINHA");
+        feed.setLink("https://www.mar.mil.br/dhn/chm/meteo/");
+        feed.setDescription("Serviço Meteorológico Marinho");
+
+		List<SyndEntry> entries = new ArrayList<SyndEntry>();
+        SyndEntry entry;
+        SyndContent description;
+		
     	
 		List<UserTableEntity> utes = gs.genericFetchList( sql );
 		if ( utes.size() > 0 ) {
 			for ( UserTableEntity ute : utes ) {
-				result = result + generateData( ute );
+				String htmlData = generateData( ute );
+				String titulo = ute.getData("titulo");
+				
+                entry = new SyndEntryImpl();
+                entry.setTitle( titulo);
+                //entry.setLink("http://wiki.java.net/bin/view/Javawsxml/Rome03");
+                entry.setPublishedDate(  Calendar.getInstance().getTime() );
+                description = new SyndContentImpl();
+                description.setType("text/html");
+                description.setValue( htmlData );
+                entry.setDescription(description);
+                entries.add(entry);			
 			}
 		}
 		
-		return result;
+		feed.setEntries(entries);
+		
+        Writer writer = new StringWriter();
+        SyndFeedOutput output = new SyndFeedOutput();
+        output.output(feed,writer);
+        
+        String res = writer.toString();
+        writer.close();
+				
+		return res;
     }
 
     

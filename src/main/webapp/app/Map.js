@@ -93,7 +93,7 @@ Ext.define('MCLM.Map', {
 					}),
 		            text: new ol.style.Text({
 		                text: label,
-		                scale : 0.7,
+		                scale : 0.9,
 		                textAlign : 'center', 
 		                textBaseline : 'middle', 
 		                stroke: new ol.style.Stroke({
@@ -972,12 +972,37 @@ Ext.define('MCLM.Map', {
 				})
 			});
 							
-			
+			/*
 			MCLM.Map.pressureLayer = new ol.layer.Tile({
 				source: new ol.source.XYZ({
 					url: 'http://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=810c5cf214be9635b7c73268bd0b516d'
 				})
 			});
+			*/
+			
+			// https://www.climatempo.com.br/satelite
+			// https://acervodigital.net/imagens-de-satelite-ao-vivo/
+			//https://brasilagro.wordpress.com/2015/07/27/chuvas-acompanhe-as-imagens-de-cinco-satelites-em-tempo-real/
+			MCLM.Map.pressureLayer = new ol.layer.Tile({
+			    source: new ol.source.TileWMS({
+			        url: 'http://geosite.climatempo.com.br/geoserver/wms',
+			        projection: ol.proj.get('EPSG:4326'),
+			        params: {
+			            'LAYERS': 'satelite:ams4Kirrf11,localidades:estados', 
+			            // satelite:ams4Kvi11
+			            // satelite:ams4Kbm11
+			            // satelite:ams4Kirf11
+			            // satelite:ams4Kirrf11
+			            'FORMAT': 'image/png8',
+	    	            'tiled': true,
+	    	            'transparent' : true,
+	    	            //'VERSION': '1.3.0',
+			        }
+			    })
+			});
+						
+			
+			
 			
 			MCLM.Map.tempLayer = new ol.layer.Tile({
 				source: new ol.source.XYZ({

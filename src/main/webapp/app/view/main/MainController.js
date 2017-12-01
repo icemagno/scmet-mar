@@ -3,7 +3,24 @@ Ext.define('MCLM.view.main.MainController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.main',
 
-	
+    showInmetGoes : function() {
+		var	inmetGoesWindow = Ext.getCmp('inmetGoesWindow');
+		if ( !inmetGoesWindow ) {
+			inmetGoesWindow = Ext.create('MCLM.view.slider.InmetGoesWindow');
+		}
+		inmetGoesWindow.show();	
+    },
+    
+	showCobertura : function() {
+		var	sliderWindow = Ext.getCmp('sliderWindow');
+		if ( !sliderWindow ) {
+			sliderWindow = Ext.create('MCLM.view.slider.SliderWindow');
+		}
+		sliderWindow.show();			
+		MCLM.Functions.coberturaTimer = setInterval( function(){ MCLM.Functions.coberturaAnimate(); }, 300 );		
+	},
+    
+    
 	toggleMagnify : function( button ) {
 		MCLM.Map.toggleMagnify();
 	},	
@@ -50,7 +67,9 @@ Ext.define('MCLM.view.main.MainController', {
 		if ( !avisoWindow ) {
 			avisoWindow = Ext.create('MCLM.view.aviso.AvisoWindow');
 		}
+		
 		avisoWindow.show();
+		avisoWindow.alignTo(Ext.getBody(), "tl-tl", [40, 80]);
     },
     
     

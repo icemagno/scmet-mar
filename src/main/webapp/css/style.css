@@ -952,6 +952,11 @@ body {
 	background-repeat: no-repeat; 
 }
 
+.storm-icon {
+	background-image: url('../img/storm.svg') !important;
+	background-repeat: no-repeat; 
+}
+
 .owm-temp-icon {
 	background-image: url('../img/owm_temperature.svg') !important;
 	background-repeat: no-repeat; 

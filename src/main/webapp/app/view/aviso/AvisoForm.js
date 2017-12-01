@@ -53,12 +53,12 @@ Ext.define('MCLM.view.aviso.AvisoForm', {
         name: 'numero',
         allowBlank : false,
     },{
-        fieldLabel: 'Emissão',
-        name: 'emissao',
-        allowBlank : false,
-    },{
         fieldLabel: 'Título',
         name: 'titulo',
+        allowBlank : false,
+    },{
+        fieldLabel: 'Emissão',
+        name: 'emissao',
         allowBlank : false,
     },{
         fieldLabel: 'Texto',
