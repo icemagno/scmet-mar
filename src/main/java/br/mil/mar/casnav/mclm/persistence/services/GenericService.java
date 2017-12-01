@@ -42,6 +42,11 @@ public class GenericService {
 		return resTasks;
 	}
 
+	public void execute( String sql ) throws Exception {
+		rep.execute(sql);
+		rep.closeSession();
+	}
+	
 	@SuppressWarnings("rawtypes")
 	public List<UserTableEntity> genericFetchList(String query) throws Exception {
 		if ( !rep.isOpen() ) {

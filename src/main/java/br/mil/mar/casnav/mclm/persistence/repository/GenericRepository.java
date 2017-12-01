@@ -100,6 +100,13 @@ public class GenericRepository  {
 		return result;
 	}
 	
+	public void execute( String sql ) throws Exception {
+		System.out.println("execute " + sql );
+		Statement stmt = this.connection.createStatement();
+		stmt.execute( sql );
+		this.connection.close();		
+	}
+	
 	private List<?> externalGenericFetchList( String query ) throws Exception {
 		System.out.println("externalGenericFetchList " + query );
 		

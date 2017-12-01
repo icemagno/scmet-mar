@@ -121,28 +121,11 @@ Ext.define('MCLM.DrawHelper', {
                 me.modify = new ol.interaction.Modify({features: temp});
                 MCLM.Map.map.addInteraction(me.modify);
 
-                /*
+                
                 me.modify.on('modifyend', function( evt ) {
-                    
                     var featureDesenhada = evt.features.getArray()[0];
-                    var coords = featureDesenhada.getGeometry().getCoordinates()[0];
-                    
-                    $("#drawGridTable tr").remove();
-                    me.coordinates.length = 0;
-                    for( x=0; x < coords.length; x++ ) {
-                        var coord = coords[x];
-                        var hdms = ol.coordinate.toStringHDMS( coord, 5 );
-                        var coordData = {};
-                        coordData.hdms = hdms;
-                        coordData.decimal = coord;
-                        coordData.parts = hdms.split(/[^\d\w]+/);  
-                        me.coordinates.push( coordData );
-                        $("<tr><td id='coord_"+x+"' style='border-bottom: 1px dotted #cacaca;width:95%'>" + hdms + "</td><td style='border-bottom: 1px dotted #cacaca;width:5%'>&nbsp;</td></tr>").appendTo('#drawGridTable tbody').hide().fadeIn(1000);
-                    }
-                    
-                    me.verificaAreas( featureDesenhada );
+                    // Nada a fazer com a nova geometria por enquanto.
                 });
-                */ 
                 
                 
             });
@@ -160,6 +143,19 @@ Ext.define('MCLM.DrawHelper', {
         mapClickHandler : function( evt ) {
         	//
         },
+        
+        haveData : function() {
+			var geojson  = new ol.format.GeoJSON();
+		    var features = MCLM.DrawHelper.vectorSource.getFeatures();
+		    return ( features.length > 0 );
+        },
+        
+		getAsJson : function() {
+			var geojson  = new ol.format.GeoJSON();
+		    var features = MCLM.DrawHelper.vectorSource.getFeatures();
+		    var jsonData = geojson.writeFeatures( features, {} );
+		    return jsonData;
+		}
         
 	}
 

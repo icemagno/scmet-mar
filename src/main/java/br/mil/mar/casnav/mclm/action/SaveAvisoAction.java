@@ -11,7 +11,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.opensymphony.xwork2.ActionContext;
 
-import br.mil.mar.casnav.mclm.persistence.services.ConfigService;
+import br.mil.mar.casnav.mclm.persistence.services.AvisoService;
 
 @Action(value="saveAviso", results= {  
 	    @Result(name="ok", type="httpheader", params={"status", "200"}) },
@@ -29,23 +29,19 @@ public class SaveAvisoAction extends BasicActionClass {
 			
 			try {
 				HttpServletRequest request = (HttpServletRequest)ActionContext.getContext().get(StrutsStatics.HTTP_REQUEST);
-				boolean useProxy = Boolean.valueOf( request.getParameter("useProxy") );
-				boolean externalLayersToLocalServer = Boolean.valueOf( request.getParameter("externalLayersToLocalServer") );
-				String nonProxyHosts = request.getParameter("nonProxyHosts");
-				String externalWorkspaceName = request.getParameter("externalWorkspaceName");
-
-				String mapBackgroudColor = request.getParameter("mapBackgroudColor");
-				boolean scanDictAtStartup = Boolean.valueOf( request.getParameter("scanDictAtStartup") );
-				/*
-				Config config = new Config(idConfig, geoserverUrl, baseLayer, useProxy, externalLayersToLocalServer, externalWorkspaceName, 
-							proxyHost, nonProxyHosts, proxyUser, proxyPassword, proxyPort, geoserverUser, 
-							geoserverPassword, mapZoom, queryFactorRadius, mapCenter, shapeFileTargetPath, 
-							routingServer, routingUser, routingPassword, routingPort, routingDatabase,	
-							apoloServer, distanceFromRoute, symbolServerURL, servicosCptecUrl, mapBackgroudColor,scanDictAtStartup);	
-				*/
 				
-				ConfigService cs = new ConfigService();
-				//cs.updateConfig(config);
+				String id = request.getParameter("id");
+				String numero = request.getParameter("numero");
+				String titulo = request.getParameter("titulo");
+				String texto = request.getParameter("texto");
+				String validade = request.getParameter("validade");
+				String complemento = request.getParameter("complemento");
+				String geometria = request.getParameter("geometria");
+				String emissao = request.getParameter("emissao");
+
+				AvisoService as = new AvisoService();
+				as.insertAviso(id, numero, titulo, texto, validade, complemento, geometria,emissao);
+				
 				
 			} catch ( Exception e ) {
 				result = "{ \"error\": true, \"msg\": \"" + e.getMessage() + ".\" }";

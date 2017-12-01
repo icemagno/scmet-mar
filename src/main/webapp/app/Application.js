@@ -50,12 +50,8 @@ Ext.define('MCLM.Application', {
 			success: function(response, opts) {
 				var config = Ext.decode(response.responseText);
 				
-				console.log( config );
-				
-				
 				// O Mapa é inicializado em 'MCLM.view.paineis.PainelCentral' no 
 				// metodo 'afterRender'.
-				
 				
 				// Nao modifique a ordem das chamadas abaixo
 				

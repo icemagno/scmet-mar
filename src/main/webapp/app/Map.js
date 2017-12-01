@@ -68,8 +68,91 @@ Ext.define('MCLM.Map', {
 		editFeicaoStyle : null,
 		editFeicaoOldStyle : null,
 		
-		loadAvisosAtivos : function() {
-			console.log('Falta ler os avisos ativos!')
+		getAvisosVigentes : function() {
+			
+			
+			var getStyle = function( feature, resolution ) {
+				var resultStyles = [];
+				var featureGeomType = feature.getGeometry().getType();
+				var props = feature.getProperties();
+				var label = props.numero;
+
+	        	var hexColor = "#ff3f3f";
+	        	var newColor = ol.color.asArray(hexColor);
+	        	newColor = newColor.slice();
+	        	newColor[3] = 0.2;				
+				
+				
+	        	var avisoStyle = new ol.style.Style({
+					fill: new ol.style.Fill({
+						color: newColor,
+					}),
+					stroke: new ol.style.Stroke({
+						color:  "#ff3f3f",
+						width:  1, 
+					}),
+		            text: new ol.style.Text({
+		                text: label,
+		                scale : 0.7,
+		                textAlign : 'center', 
+		                textBaseline : 'middle', 
+		                stroke: new ol.style.Stroke({
+		                	color: "#ffffff",
+		                	width: 2
+		                }),				                
+		                fill: new ol.style.Fill({
+		                    color: "#000000"
+		                }),
+		            })
+					
+				});			
+
+	        	resultStyles.push( avisoStyle );
+	        	return resultStyles;
+			};	
+			
+			
+			
+			
+            Ext.Ajax.request({
+                url: 'getAvisosVigentes',
+                method: 'get',
+                success: function (response, opts) {
+                    var featuresObj = Ext.decode(response.responseText);
+                    var vectorSource = new ol.source.Vector();
+
+                    if( featuresObj.features === null ) {
+                        return true;
+                    }
+
+                    var features = new ol.format.GeoJSON().readFeatures(featuresObj, {
+                        featureProjection: 'EPSG:4326'
+                    });
+                    
+                    for ( var i = 0; i < features.length; i++ ) {
+                        features[i].set('layerName','avisosVigentes');
+                        vectorSource.addFeature( features[i] );
+                    }                     
+                    
+                    var vectorLayer = new ol.layer.Vector({
+                        source: vectorSource,
+                        style: getStyle
+                    }); 
+                    
+                    vectorLayer.set('name', 'avisosVigentes');
+                    
+                    MCLM.Map.removeLayerByName('avisosVigentes');
+                    MCLM.Map.map.addLayer(vectorLayer);                    
+                    
+                },
+                failure: function(conn, response, options, eOpts) {
+                    //
+                }            
+            
+            });			
+			
+			
+			
 		},
 		
 		loadAreasMauTempo : function() {
@@ -145,7 +228,9 @@ Ext.define('MCLM.Map', {
                     
                     MCLM.Map.theView.fit(vectorSource.getExtent(), {duration: 1500, maxZoom: 12});
                     MCLM.Map.removeLayerByName('areasMauTempo');
-                    MCLM.Map.map.addLayer(vectorLayer);                    
+                    MCLM.Map.map.addLayer(vectorLayer); 
+                    
+                    MCLM.Map.getAvisosVigentes();
                     
                 },
                 failure: function(conn, response, options, eOpts) {
@@ -821,7 +906,7 @@ Ext.define('MCLM.Map', {
 			
 			
 			MCLM.Map.loadAreasMauTempo();
-			MCLM.Map.loadAvisosAtivos();
+			
 		},
 		
 		toggleMagnify : function() {
@@ -1052,6 +1137,7 @@ Ext.define('MCLM.Map', {
 		},
 		
 		checkInternetAccess : function() {
+			/*
 			var image = new Image();
 			image.src = 'https://www.google.com.br/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png';
 			image.onload = function() {
@@ -1060,6 +1146,7 @@ Ext.define('MCLM.Map', {
 			image.onerror = function() {
 				Ext.Msg.alert('Alerta!','Não foi possível acessar a internet a partir de seu navegador. Alguns serviços podem não estar disponíveis.' );		  
 			};
+			*/
 		},
 		
 		updateScale : function() {
