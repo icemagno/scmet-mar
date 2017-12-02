@@ -20,7 +20,17 @@ Ext.define('MCLM.view.main.MainController', {
 		MCLM.Functions.coberturaTimer = setInterval( function(){ MCLM.Functions.coberturaAnimate(); }, 300 );		
 	},
     
-    
+
+	showSatelite : function() {
+		var	sateliteWindow = Ext.getCmp('sateliteWindow');
+		if ( !sateliteWindow ) {
+			sateliteWindow = Ext.create('MCLM.view.slider.SateliteWindow');
+		}
+		sateliteWindow.show();			
+		MCLM.Functions.sateliteTimer = setInterval( function(){ MCLM.Functions.sateliteAnimate(); }, 300 );		
+	},
+	
+	
 	toggleMagnify : function( button ) {
 		MCLM.Map.toggleMagnify();
 	},	

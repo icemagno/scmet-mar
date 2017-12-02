@@ -957,6 +957,16 @@ body {
 	background-repeat: no-repeat; 
 }
 
+.satellite-icon {
+	background-image: url('../img/satellite.svg') !important;
+	background-repeat: no-repeat; 
+}
+
+.goes-icon {
+	background-image: url('../img/goes.svg') !important;
+	background-repeat: no-repeat; 
+}
+
 .owm-temp-icon {
 	background-image: url('../img/owm_temperature.svg') !important;
 	background-repeat: no-repeat; 

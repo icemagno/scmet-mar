@@ -72,7 +72,14 @@ Ext.define('MCLM.view.paineis.ToolBarPrincipal', {
     	id: 'coberturaID',
         handler : 'showCobertura'
     },{
-    	iconCls: 'storm-icon',
+    	iconCls: 'satellite-icon',
+	    width: MCLM.Globals.btnWidth,
+	    height: MCLM.Globals.btnHeight,
+    	xtype: 'button',
+    	id: 'sateliteID',
+        handler : 'showSatelite'
+    },{
+    	iconCls: 'goes-icon',
 	    width: MCLM.Globals.btnWidth,
 	    height: MCLM.Globals.btnHeight,
     	xtype: 'button',

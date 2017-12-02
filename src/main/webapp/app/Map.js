@@ -972,14 +972,15 @@ Ext.define('MCLM.Map', {
 				})
 			});
 							
-			/*
+			
 			MCLM.Map.pressureLayer = new ol.layer.Tile({
 				source: new ol.source.XYZ({
 					url: 'http://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=810c5cf214be9635b7c73268bd0b516d'
 				})
 			});
-			*/
 			
+			
+			/*
 			// https://www.climatempo.com.br/satelite
 			// https://acervodigital.net/imagens-de-satelite-ao-vivo/
 			//https://brasilagro.wordpress.com/2015/07/27/chuvas-acompanhe-as-imagens-de-cinco-satelites-em-tempo-real/
@@ -1000,8 +1001,7 @@ Ext.define('MCLM.Map', {
 			        }
 			    })
 			});
-						
-			
+			*/
 			
 			
 			MCLM.Map.tempLayer = new ol.layer.Tile({

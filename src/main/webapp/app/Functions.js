@@ -4,14 +4,31 @@ Ext.define('MCLM.Functions', {
 		countLog : 0,
 		coberturaImages00Hmg : [],
 		coberturaImages12Hmg : [],
+		ams4Kirrf : [],
 		coberturaIndex : 0,
+		sateliteIndex : 0,
 		coberturaTimer : null,
+		sateliteTimer : null,
 		horario : '00HMG',
 		coberturaTitle : 'Cobertura de Nuvens',
 		
-		coberturaAnimate : function() {
-			console.log( MCLM.Functions.coberturaIndex );
+		sateliteAnimate : function() {
+			var	sateliteWindow = Ext.getCmp('sateliteWindow');
+			if ( !sateliteWindow ) {
+				clearInterval( MCLM.Functions.sateliteTimer );
+				return true;
+			}
 			
+			var img = "<img style='width:100%;height:100%' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex] + "'>";
+			sateliteWindow.update( img );
+			MCLM.Functions.sateliteIndex++;
+			if ( MCLM.Functions.sateliteIndex >= MCLM.Functions.ams4Kirrf.length ) {
+				MCLM.Functions.sateliteIndex = 0;
+			}			
+			
+		},
+		
+		coberturaAnimate : function() {
 			var	sliderWindow = Ext.getCmp('sliderWindow');
 			if ( !sliderWindow ) {
 				clearInterval( MCLM.Functions.coberturaTimer );
@@ -30,14 +47,12 @@ Ext.define('MCLM.Functions', {
 				MCLM.Functions.coberturaIndex = 0;
 			}
 		},
-		
+
 		loadCoberturaImages : function() {
-			
 			function pad(num, size) {
 			    var s = "000" + num;
 			    return s.substr(s.length-size);
 			}			
-			
 			var index = 0;
 			for ( x=0; x < 99; x=x+3) {
 				var fileImage = pad(x,3);
@@ -46,7 +61,13 @@ Ext.define('MCLM.Functions', {
 				MCLM.Functions.coberturaImages00Hmg.push( fileName00H );
 				MCLM.Functions.coberturaImages12Hmg.push( fileName12H );
 			}
-			
+		},
+		
+		loadSateliteImages : function() {
+			for ( x=11; x<21; x++) {
+				var src = "https://geosite.climatempo.com.br/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers=satelite:ams4Kirrf"+x+",localidades:estados,localidades:paises&styles=,poligono_vazado_preto_fino,poligono_vazado_preto_fino&bbox=-9304526.579097936,-4079902.8217495675,-3072157.0408378043,812066.9885017126&width=636&height=477&srs=EPSG:3857&format=image/jpeg&transparent=true";
+				MCLM.Functions.ams4Kirrf.push( src );
+			}
 		},
 		
 		getClimaDesc : function( value ) {
@@ -245,6 +266,12 @@ Ext.define('MCLM.Functions', {
 		    	        target: 'inmetGoesID',
 		    	        title: 'Animação INPE GOES',
 		    	        text: 'Exibe animação de satélite GOES do INPE.',
+		    	        width: 180,
+		    	        dismissDelay: 5000 
+		    	    },{
+		    	        target: 'sateliteID',
+		    	        title: 'Animação de Satélite',
+		    	        text: 'Exibe animação de satélite. Origem: Climatempo.',
 		    	        width: 180,
 		    	        dismissDelay: 5000 
 		    	    }); 	

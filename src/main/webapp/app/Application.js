@@ -62,6 +62,9 @@ Ext.define('MCLM.Application', {
 				/* 3. */ MCLM.Functions.inicializaDicas();			// As dicas dos botoes precisam dos botoes instanciados
 				
 				/* 4. */ MCLM.Functions.loadCoberturaImages();
+				
+				/* 5. */ MCLM.Functions.loadSateliteImages();
+				
 		        // ---------------------------------------------
 			},
 			failure: function(response, opts) {
