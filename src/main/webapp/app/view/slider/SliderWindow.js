@@ -4,8 +4,9 @@ Ext.define('MCLM.view.slider.SliderWindow', {
 	xtype: 'sliderWindow',
 	title : "Modelos",
 	width : 350,
-	height: 460,
+	height: 500,
 	constrain: true,
+	resizable: false,
 	renderTo: Ext.getBody(),
 	
     buttons: [{

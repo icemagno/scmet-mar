@@ -6,6 +6,7 @@ Ext.define('MCLM.view.slider.SateliteWindow', {
 	width : 500,
 	height: 490,
 	constrain: true,
+	resizable: false,
 	renderTo: Ext.getBody(),
 	html : '',
 });

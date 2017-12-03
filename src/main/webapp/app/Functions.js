@@ -19,7 +19,7 @@ Ext.define('MCLM.Functions', {
 				return true;
 			}
 			
-			var img = "<img style='width:100%;height:100%' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex] + "'>";
+			var img = "<img style='width:100%;height:455px' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex] + "'>";
 			sateliteWindow.update( img );
 			MCLM.Functions.sateliteIndex++;
 			if ( MCLM.Functions.sateliteIndex >= MCLM.Functions.ams4Kirrf.length ) {
@@ -40,7 +40,8 @@ Ext.define('MCLM.Functions', {
 				who = MCLM.Functions.coberturaImages12Hmg;
 			}
 			
-			var img = "<div style='background-color:#ffffff;padding:10px;width:100%;height:30px' id='modeloTitle'>"+MCLM.Functions.coberturaTitle+" : Inic. "+MCLM.Functions.horario+"</div><img style='width:100%;height:95%' src='" + who[MCLM.Functions.coberturaIndex] + "'>";
+			var img = "<div style='background-color:#ffffff;padding:10px;width:100%;height:30px' id='modeloTitle'>"+MCLM.Functions.coberturaTitle+
+				" : Inic. "+MCLM.Functions.horario+"</div><img style='width:100%;height:420px' src='" + who[MCLM.Functions.coberturaIndex] + "'>";
 			sliderWindow.update( img );
 			MCLM.Functions.coberturaIndex++;
 			if ( MCLM.Functions.coberturaIndex >= MCLM.Functions.coberturaImages00Hmg.length ) {
