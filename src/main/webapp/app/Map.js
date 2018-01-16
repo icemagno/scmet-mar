@@ -140,6 +140,8 @@ Ext.define('MCLM.Map', {
                     }); 
                     
                     vectorLayer.set('name', 'avisosVigentes');
+                    vectorLayer.set('alias', 'avisosVigentes');
+                    vectorLayer.set('serialId', 'avisosVigentes');
                     
                     MCLM.Map.removeLayerByName('avisosVigentes');
                     MCLM.Map.map.addLayer(vectorLayer);                    
@@ -225,6 +227,8 @@ Ext.define('MCLM.Map', {
                     }); 
                     
                     vectorLayer.set('name', 'areasMauTempo');
+                    vectorLayer.set('alias', 'areasMauTempo');
+                    vectorLayer.set('serialId', 'areasMauTempo');
                     
                     MCLM.Map.theView.fit(vectorSource.getExtent(), {duration: 1500, maxZoom: 12});
                     MCLM.Map.removeLayerByName('areasMauTempo');
@@ -2243,7 +2247,7 @@ Ext.define('MCLM.Map', {
 
 					
 					// Interrogar FEICAO --------
-					if ( layerType == 'FEI' ) {
+					if ( (layerName == 'avisosVigentes') ) {
 						var features = [ feature ];
 						att.features = features;
 					}
@@ -2251,7 +2255,7 @@ Ext.define('MCLM.Map', {
 				
 					
 					if ( !att.features ) {
-						MCLM.Functions.mainLog("Não existem dados na camada " + layerName );
+						//MCLM.Functions.mainLog("Não existem dados na camada " + layerName );
 					} else {
 					
 						externalLayerName = layerName;
