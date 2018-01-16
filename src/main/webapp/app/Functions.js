@@ -19,8 +19,14 @@ Ext.define('MCLM.Functions', {
 				return true;
 			}
 			
-			var img = "<img style='width:100%;height:455px' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex] + "'>";
-			sateliteWindow.update( img );
+			var img = "<img style='width:50%;height:222px;float:left' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex].src + "'>";
+			var img2 = "<img style='width:50%;height:222px;float:left' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex].src2 + "'>";
+			var img3 = "<img style='width:50%;height:222px;float:left' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex].src3 + "'>";
+			var img4 = "<img style='width:50%;height:222px;float:left' src='" + MCLM.Functions.ams4Kirrf[MCLM.Functions.sateliteIndex].src4 + "'>";
+			
+			var div = "<div style='width:100%;height:222px'>" + img + img2 + "</div><div style='width:100%;height:222px'>" + img3 + img4 + "</div>";
+			sateliteWindow.update( div );
+			
 			MCLM.Functions.sateliteIndex++;
 			if ( MCLM.Functions.sateliteIndex >= MCLM.Functions.ams4Kirrf.length ) {
 				MCLM.Functions.sateliteIndex = 0;
@@ -65,9 +71,30 @@ Ext.define('MCLM.Functions', {
 		},
 		
 		loadSateliteImages : function() {
-			for ( x=11; x<21; x++) {
-				var src = "https://geosite.climatempo.com.br/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers=satelite:ams4Kirrf"+x+",localidades:estados,localidades:paises&styles=,poligono_vazado_preto_fino,poligono_vazado_preto_fino&bbox=-9304526.579097936,-4079902.8217495675,-3072157.0408378043,812066.9885017126&width=636&height=477&srs=EPSG:3857&format=image/jpeg&transparent=true";
-				MCLM.Functions.ams4Kirrf.push( src );
+			for ( x=1; x<21; x++) {
+				// goesr_ret_ch07_grey_
+				// goesr_ret_ch07_ircol1_
+				// goesr_ret_ch08_grey_
+				// goesr_ret_ch09_grey_
+				// goesr_ret_ch09_wvcol1_
+				// goesr_ret_ch09_wvcol2_
+				
+				var layer = 'goesr_ret_ch07_ircol1_' + x;
+				var layer2 = 'goesr_ret_ch09_wvcol1_' + x;
+				var layer3 = 'goesr_ret_ch07_grey_' + x;
+				var layer4 = 'goesr_ret_ch09_grey_' + x;
+				
+				var src = "https://geosite.climatempo.com.br/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers="+layer+"&styles=&bbox=-9304526.579097936,-4079902.8217495675,-3072157.0408378043,812066.9885017126&width=636&height=477&srs=EPSG:3857&format=image/jpeg&transparent=true";
+				var src2 = "https://geosite.climatempo.com.br/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers="+layer2+"&styles=&bbox=-9304526.579097936,-4079902.8217495675,-3072157.0408378043,812066.9885017126&width=636&height=477&srs=EPSG:3857&format=image/jpeg&transparent=true";
+				var src3 = "https://geosite.climatempo.com.br/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers="+layer2+"&styles=&bbox=-9304526.579097936,-4079902.8217495675,-3072157.0408378043,812066.9885017126&width=636&height=477&srs=EPSG:3857&format=image/jpeg&transparent=true";
+				var src4 = "https://geosite.climatempo.com.br/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers="+layer2+"&styles=&bbox=-9304526.579097936,-4079902.8217495675,-3072157.0408378043,812066.9885017126&width=636&height=477&srs=EPSG:3857&format=image/jpeg&transparent=true";
+				var srcData = {};
+				srcData.src = src;
+				srcData.src2 = src2;
+				srcData.src3 = src3;
+				srcData.src4 = src4;
+				
+				MCLM.Functions.ams4Kirrf.push( srcData );
 			}
 		},
 		

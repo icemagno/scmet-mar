@@ -3,7 +3,7 @@ Ext.define('MCLM.view.slider.SateliteWindow', {
 	id:'sateliteWindow',    	
 	xtype: 'sateliteWindow',
 	title : "Imagem de Satélite",
-	width : 500,
+	width : 900,
 	height: 490,
 	constrain: true,
 	resizable: false,
