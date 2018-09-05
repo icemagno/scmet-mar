@@ -18,6 +18,6 @@ Ext.define('MCLM.view.paineis.PainelSuperior', {
     			"<span style='font-size:18px'>DIRETORIA DE HIDROGRAFIA E NAVEGAÇÃO</span><br>"+
     			"CENTRO DE HIDROGRAFIA DA MARINHA<br>"+
     			"Serviço Meteorológico Marinho<br>"+
-    			"<span style='font-size:9px'>Sistema de Cadastro Meteorológico Marinho : SCMET-Mar</span></div>" +
+    			"</div>" +
     		"</div>",
 });

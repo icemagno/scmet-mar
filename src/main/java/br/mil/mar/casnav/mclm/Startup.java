@@ -55,8 +55,10 @@ public class Startup implements ServletContextListener {
 				Config cfg = cs.getConfig();  
 				Configurator.getInstance().updateConfiguration( cfg );
     		} catch ( NotFoundException e ) {
-    			System.out.println("Nenhum registro encontrado na tabela de configuração.");
+    			System.out.println("Nenhum registro encontrado na tabela de configuraÃ§Ã£o.");
     		}
+    		
+
     		
 		} catch (Exception e) { 
 			e.printStackTrace(); 

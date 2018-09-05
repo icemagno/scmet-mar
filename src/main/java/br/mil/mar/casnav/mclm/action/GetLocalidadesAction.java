@@ -28,7 +28,6 @@ public class GetLocalidadesAction {
 			INPEService inpe = new INPEService();
 			String resposta = inpe.searchCidade(name);
 					
-			
 			HttpServletResponse response = (HttpServletResponse)ActionContext.getContext().get(StrutsStatics.HTTP_RESPONSE);
 			response.setCharacterEncoding("UTF-8"); 
 			response.getWriter().write(resposta);  
