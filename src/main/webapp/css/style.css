@@ -149,8 +149,38 @@ body {
 	background-repeat: no-repeat; 
 }
 
+
+.redrss-icon {
+	background-image: url('../img/red-rss.svg') !important;
+	background-repeat: no-repeat; 
+}
+.greenrss-icon {
+	background-image: url('../img/green-rss.svg') !important;
+	background-repeat: no-repeat; 
+}
+.yellowrss-icon {
+	background-image: url('../img/yellow-rss.svg') !important;
+	background-repeat: no-repeat; 
+}
+.bluerss-icon {
+	background-image: url('../img/blue-rss.svg') !important;
+	background-repeat: no-repeat; 
+}
+
+
+
+
+
+
+
+
 .arcgis-icon {
 	background-image: url('../img/arcgis-icon.svg') !important;
+	background-repeat: no-repeat; 
+}
+
+.meteoro-icon {
+	background-image: url('../img/radar.svg') !important;
 	background-repeat: no-repeat; 
 }
 

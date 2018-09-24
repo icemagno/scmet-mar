@@ -35,6 +35,42 @@ Ext.define('MCLM.Functions', {
 			
 		},
 		
+		openWindowData : function( data ) {
+			console.log( data );
+			var avisoWindow = Ext.getCmp('avisoWindow');
+			if( !avisoWindow ) {
+				avisoWindow = Ext.create('MCLM.view.aviso.AvisoWindow');
+			}
+			avisoWindow.show();
+			
+			var queryResultWindow = Ext.getCmp('queryResultWindow');
+			if ( queryResultWindow) queryResultWindow.close();			
+			
+			var numero = Ext.getCmp('numero');
+			var titulo = Ext.getCmp('titulo');
+			var texto = Ext.getCmp('texto');
+			var id = Ext.getCmp('id');
+			var emissao = Ext.getCmp('emissao');
+			var validade = Ext.getCmp('validade');
+			var complemento = Ext.getCmp('complemento');
+			var ativo = Ext.getCmp('ativoId');
+			var avisoId = Ext.getCmp('avisoId');
+			
+			numero.setValue( data.numero );
+			id.setValue( data.area );
+			titulo.setValue( data.titulo );
+			texto.setValue( data.texto );
+			emissao.setValue( data.emissao );
+			validade.setValue( data.validade );
+			complemento.setValue( data.complemento );
+			avisoId.setValue(data.id_aviso );
+			ativo.setValue( data.ativo );
+			
+			Ext.getCmp('onSubmitAvisoId').setVisible(false);
+			Ext.getCmp('onUpdateAvisoId').setVisible(true);
+			
+		},
+		
 		coberturaAnimate : function() {
 			var	sliderWindow = Ext.getCmp('sliderWindow');
 			if ( !sliderWindow ) {
@@ -228,13 +264,13 @@ Ext.define('MCLM.Functions', {
 		inicializaDicas : function() {
 			Ext.tip.QuickTipManager.init();
 
-			Ext.tip.QuickTipManager.register(/*{
-						target: 'id111',
-						title: 'Configurações',
-						text: 'Configura aspectos gerais do sistema.',
+			Ext.tip.QuickTipManager.register({
+						target: 'meteoroId',
+						title: 'Meteoromarinha',
+						text: 'Gerencia Meteoromarinha.',
 						width: 150,
 						dismissDelay: 5000 
-					},*/{
+					},{
 						target: 'id115',
 						title: 'Grade Auxiliar',
 						text: 'Exibe a grade auxiliar do mapa.',

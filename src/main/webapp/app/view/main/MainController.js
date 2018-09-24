@@ -21,6 +21,14 @@ Ext.define('MCLM.view.main.MainController', {
 	},
     
 
+	showMeteoro : function() {
+		var meteoroBarWindow = Ext.getCmp('meteoroBarWindow'); 
+		if( !meteoroBarWindow ) {	
+			meteoroBarWindow = Ext.create('MCLM.view.meteoro.MeteoroBarWindow');
+		}	
+		meteoroBarWindow.show();
+	},
+	
 	showSatelite : function() {
 		var	sateliteWindow = Ext.getCmp('sateliteWindow');
 		if ( !sateliteWindow ) {

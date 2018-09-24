@@ -145,6 +145,7 @@ Ext.define('MCLM.DrawHelper', {
         },
         
         haveData : function() {
+        	if( !MCLM.DrawHelper.vectorSource ) return false;
 			var geojson  = new ol.format.GeoJSON();
 		    var features = MCLM.DrawHelper.vectorSource.getFeatures();
 		    return ( features.length > 0 );
@@ -156,6 +157,39 @@ Ext.define('MCLM.DrawHelper', {
 		    var jsonData = geojson.writeFeatures( features, {} );
 		    return jsonData;
 		}
+        
+        /*
+        editFireArea : function() {
+        	var features = drawSource.getFeatures();
+        	
+        	if( features.length == 0 ) return;
+        	
+        	if( editing ) {
+        		theMap.removeInteraction( modifyInteraction );
+        	    theMap.removeInteraction( selectArea );		
+        		modifyInteraction = null;
+        		selectArea = null;
+        		editing = false;
+        		return;
+        	} 
+        	
+        	editing = true;
+        	
+            selectArea = new ol.interaction.Select({
+            	layers: [drawLayer],
+        	});	
+        	
+            modifyInteraction = new ol.interaction.Modify({
+                features: selectArea.getFeatures(),
+                //style: overlayStyle,
+        	});    
+
+            theMap.addInteraction( selectArea );		
+            theMap.addInteraction( modifyInteraction );	    
+        	
+        }
+        */
+        
         
 	}
 

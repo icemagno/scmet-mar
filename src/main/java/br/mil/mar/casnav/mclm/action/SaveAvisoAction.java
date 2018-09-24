@@ -38,9 +38,25 @@ public class SaveAvisoAction extends BasicActionClass {
 				String complemento = request.getParameter("complemento");
 				String geometria = request.getParameter("geometria");
 				String emissao = request.getParameter("emissao");
+				String avisoId = request.getParameter("avisoId");
+				String ativo = request.getParameter("ativo");
 
+				System.out.println( avisoId );
 				AvisoService as = new AvisoService();
-				as.insertAviso(id, numero, titulo, texto, validade, complemento, geometria,emissao);
+
+				if ( !avisoId.trim().equals("") ) {
+					int avisoId_I = Integer.valueOf( avisoId );
+					System.out.println("Atualizando.... ");
+					as.updateAviso(avisoId_I, id, numero, titulo, texto, validade, complemento, geometria,emissao, ativo);
+				}
+				
+				try {
+					int avisoId_I = Integer.valueOf( avisoId );
+				} catch ( Exception e ) {
+					System.out.println("Inserindo.... ");
+					as.insertAviso(id, numero, titulo, texto, validade, complemento, geometria,emissao);
+				}
+				
 				
 				
 			} catch ( Exception e ) {

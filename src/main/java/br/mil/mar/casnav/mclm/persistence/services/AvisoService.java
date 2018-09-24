@@ -32,10 +32,12 @@ public class AvisoService {
     }
     */	
 	
+	
+	
     public String getAvisosMauTempoVigentes() throws Exception {
         String sql = "SELECT cast (row_to_json( fc ) as text) As featurecollection from (" +
                 "SELECT 'FeatureCollection' As type, array_to_json( array_agg(t) ) as features FROM " +
-                "(select  row_to_json((SELECT l FROM (SELECT area,numero,titulo,texto,validade,ativo,id_aviso) As l)) As properties, 'Feature' As type, cast(ST_AsGeoJSON(geom) as json) " +
+                "(select  row_to_json((SELECT l FROM (SELECT area,numero,emissao,complemento,titulo,texto,validade,ativo,id_aviso) As l)) As properties, 'Feature' As type, cast(ST_AsGeoJSON(geom) as json) " +
                 "as geometry from avisos as avv where avv.ativo = true) as t ) as fc";
     	
     	String result = "";
@@ -170,5 +172,26 @@ public class AvisoService {
 		gs.execute( sql );
     	
     }
+
+	public void updateAviso(int avisoId_I, String id, String numero, String titulo, String texto, String validade, String complemento, String geometria, String emissao, String ativo) throws Exception {
+    	
+		if ( ativo == null || ( !ativo.equals("true") ) ) ativo = "false";
+		
+		String sql = "update avisos set emissao = '" + emissao+  "', "
+    			+ "complemento = '" + complemento + "', "
+    			+ "area = '" + id + "', "
+    			+ "numero = '" + numero + "', "
+    			+ "texto = '" + texto + "', "
+    			+ "validade = '" + validade + "', "
+    			+ "ativo = " + ativo +  " where id_aviso = " + avisoId_I;
+
+    	Configurator cfg = Configurator.getInstance();
+		String connectionString = "jdbc:postgresql://" + cfg.getDatabaseAddr() +
+				":" + cfg.getDatabasePort() + "/" + cfg.getDatabaseName();
+		GenericService gs = new GenericService( connectionString, cfg.getUserName(), cfg.getPassword()  );
+		
+		gs.execute( sql );
+		
+	}
 	
 }

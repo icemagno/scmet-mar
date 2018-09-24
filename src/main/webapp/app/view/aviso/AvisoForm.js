@@ -51,42 +51,68 @@ Ext.define('MCLM.view.aviso.AvisoForm', {
     },{
         fieldLabel: 'Número',
         name: 'numero',
+        id: 'numero',
         allowBlank : false,
     },{
         fieldLabel: 'Título',
         name: 'titulo',
+        id: 'titulo',
         allowBlank : false,
     },{
         fieldLabel: 'Emissão',
         name: 'emissao',
+        id: 'emissao',
         allowBlank : false,
     },{
         fieldLabel: 'Texto',
         name: 'texto',
+        id: 'texto',
         allowBlank : false,
     },{
         fieldLabel: 'Validade',
         name: 'validade',
+        id: 'validade',
         allowBlank : false,
     },{
         fieldLabel: 'Complemento',
         name: 'complemento',
+        id: 'complemento',
         allowBlank : true,
     },{
         fieldLabel: 'Geometria',
         name: 'geometria',
         xtype : 'hiddenfield',
         id : 'geometriaId',
+        allowBlank : true,
+    },{
+        fieldLabel: 'Ativo',
+        name: 'ativo',
+        id : 'ativoId',
+        xtype: 'checkbox',
+        inputValue: 'true',
         allowBlank : false,
+    },{
+        fieldLabel: 'Identificador',
+        name: 'avisoId',
+        xtype : 'hiddenfield',
+        id : 'avisoId',
+        allowBlank : true,
     }],
 
         
     buttons: [{
-          text: 'Fechar',
-          handler: 'onCloseAvisoForm'
+        text: 'Fechar',
+        handler: 'onCloseAvisoForm'
     },{
-          text: 'Gravar',
-          handler : 'onSubmitAvisoForm'
+        text: 'Gravar',
+        id : 'onSubmitAvisoId',
+        hidden:false,
+        handler : 'onSubmitAvisoForm'
+    },{
+        text: 'Gravar',
+        id : 'onUpdateAvisoId',
+        hidden:true,
+        handler : 'onUpdateAvisoForm'
     }],
     
     listeners: {

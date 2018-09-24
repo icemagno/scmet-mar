@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.mil.mar.casnav.mclm.misc.Configurator;
 import br.mil.mar.casnav.mclm.misc.UserTableEntity;
+import br.mil.mar.casnav.mclm.persistence.entity.Aviso;
 import br.mil.mar.casnav.mclm.persistence.entity.Meteoro;
 import br.mil.mar.casnav.mclm.persistence.exceptions.DatabaseConnectException;
 import br.mil.mar.casnav.mclm.persistence.repository.MeteoroRepository;
@@ -15,8 +16,15 @@ public class MeteoroService {
 		this.repo = new MeteoroRepository();
 	}
 	
-	
-	public void generate() {
+	public void generate() throws Exception {
+		Meteoro met = getActiveMeteoro();
+		
+		System.out.println( met.getTexto() );
+		
+		System.out.println("Parte Um : ");
+		for ( Aviso aviso : met.getParteUm() ) {
+			System.out.println( "  > " + aviso.getTitulo() );
+		}		
 		
 	}
 
@@ -24,9 +32,29 @@ public class MeteoroService {
 		return repo.getActiveMeteoro();
 	}
 	
+	public Meteoro createNewMeteoro( String texto ) throws Exception {
+		Meteoro met = new Meteoro( texto );
+		return repo.insertMeteoro(met);
+	}
 	
     public String getActiveMeteoroAsJson() throws Exception {
-        String sql = "SELECT row_to_json( fc )::text As meteoro FROM ( select * from meteoro where ativo = true limit 1 ) as fc";
+    	
+    	try {
+    		@SuppressWarnings("unused")
+			Meteoro met = getActiveMeteoro();
+    	} catch ( Exception e ) {
+    		createNewMeteoro("METEOROMARINHA REFERENTE ANALISE DE XXXX HMG - XX/XX/XXXX");
+    	}
+    	
+        String sql = "select row_to_json(meteoromarinha) as meteoro " + 
+        		"from( " + 
+        		"  select met.id_meteoro, met.arquivo, met.ativo, met.texto, " + 
+        		"  (select json_agg(avisos) " + 
+        		"  from ( " + 
+        		"    select numero,titulo,validade,texto,complemento,emissao from avisos where ativo = true order by numero" + 
+        		"  ) avisos " + 
+        		") as parte1 " + 
+        		"from meteoro as met where met.ativo = true ) meteoromarinha";
     	
     	String result = "";
 
@@ -43,4 +71,5 @@ public class MeteoroService {
 		return result;
     }	
 	
+    
 }

@@ -2531,6 +2531,7 @@ Ext.define('MCLM.Map', {
         			if ( key == 'layer_description' ) { keys.push({text: key, width:0, dataIndex: key, hidden : true}) } else
        				if ( key == 'layer_source' ) { keys.push({text: key, width:0, dataIndex: key, hidden : true}) } else
 		        	if ( key == 'data_window' ) { keys.push({text: key, width:0, dataIndex: key, hidden : true}) } else
+		        	if ( key == 'layerName' ) { keys.push({text: key, width:0, dataIndex: key, hidden : true}) } else	
 		        	if ( key == 'mapsymbol' ) { keys.push({text: key, width:0, dataIndex: key, hidden : true}) } else
 		        		keys.push({text: key, width:150, dataIndex: key}); 
 		        }
@@ -2539,6 +2540,9 @@ Ext.define('MCLM.Map', {
 		},
 		
 		createGrid : function( layerName, store, columnNames ) {
+			
+			if( layerName === 'avisosVigentes' ) layerName = 'Avisos de Mau Tempo'; 
+			
 			var dummyGrid = Ext.create('Ext.grid.Panel', {
 				border: false,
 				title : layerName,
@@ -2553,7 +2557,11 @@ Ext.define('MCLM.Map', {
 			    listeners: {
 			    	itemclick: function(dv, record, item, index, e) {
 			    		var selectedRec = dv.getSelectionModel().getSelection()[0];
-			    		MCLM.Functions.openWindowData( layerName, selectedRec.data );
+			    		
+			    		
+			    		MCLM.Functions.openWindowData( selectedRec.data );
+			    		
+			    		
 			    	}
 			    }
 			    
@@ -2594,8 +2602,6 @@ Ext.define('MCLM.Map', {
 			queryResultWindow.add( grid );
 			
 		},
-		
-		
 		
 		
 		// --------------------------------------------------------------------------------------------

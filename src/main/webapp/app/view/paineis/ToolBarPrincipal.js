@@ -11,14 +11,14 @@ Ext.define('MCLM.view.paineis.ToolBarPrincipal', {
     
     
     
-    items: [/*{
+    items: [{
     	xtype: 'button',
-		id: 'id111',
+		id: 'meteoroId',
 	    width: MCLM.Globals.btnWidth,
 	    height: MCLM.Globals.btnHeight,
-	    iconCls: 'setting-icon',
-	    handler : 'showConfig',
-    },*/{ 
+	    iconCls: 'meteoro-icon',
+	    handler : 'showMeteoro',
+    },{ 
     	// Grade de coordenadas
     	xtype: 'button',
     	id: 'id115',
