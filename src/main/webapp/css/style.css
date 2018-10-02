@@ -25,6 +25,12 @@ body {
 	border-right:1px dotted #cacaca
 }
 
+
+.x-form-text-default.x-form-textarea {
+	line-height: 15px;
+	min-height: 150px;
+}
+
 .popupTitle {
 	border-bottom:1px dotted #cacaca;
 	width:100%;
@@ -582,6 +588,12 @@ body {
 	background-image: url('../img/pencil.svg') !important;
 	background-repeat: no-repeat;
 }
+
+.pdf-icon {
+	background-image: url('../img/pdf.svg') !important;
+	background-repeat: no-repeat;
+}
+
 
 .clima-icon {
 	background-image: url('../img/clima.svg') !important;

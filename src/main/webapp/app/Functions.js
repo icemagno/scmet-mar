@@ -12,6 +12,117 @@ Ext.define('MCLM.Functions', {
 		horario : '00HMG',
 		coberturaTitle : 'Cobertura de Nuvens',
 		
+		
+		showActiveMeteoro : function() {
+			
+	        Ext.Ajax.request({
+	            url: 'getActiveMeteoro',
+	            method: 'get',
+	            success: function (response, opts) {
+	            	
+	            	if( !response.responseText ) {
+	            		Ext.Msg.alert('Erro', 'Nenhum meteoro encontrado.' );
+	            		return true;
+	            	}
+	            	
+	                var activeMeteoro = Ext.decode( response.responseText );
+	                
+	                console.log( activeMeteoro );
+	                
+	                var texto = activeMeteoro.texto;
+	                var dataAnaliseP2 = activeMeteoro.data_analise_p2;
+	                var validadePrevisaoP3 = activeMeteoro.validade_previsao_p3;
+	                
+	                var table = "<table style='width:100%;'>";
+	        		table = table + "<tr><td><h2>Previsão 24 Horas</h2></td></tr>";
+	        		table = table + "<tr><td><h3><p style='text-decoration: underline'>"+texto+"</p></h3></td></tr>";
+	        		
+	        		// Parte 1
+	        		table = table + "<tr><td><h3><p style='text-decoration: underline'>PARTE UM - AVISOS DE MAU TEMPO</p></h3></td></tr>";
+	        		var parte1 = activeMeteoro.parte1;
+	        		for( var xx = 0; xx < parte1.length; xx++ ) {
+	        			var aviso = parte1[xx];
+	        			
+	        			var avTexto = "<p style='font-weight:bold'>AVISO NR " + aviso.numero + "</p>" + aviso.titulo + "<br>EMITIDO ÀS " + 
+	        				aviso.emissao + "<br>" + aviso.texto + "<br>" + aviso.validade + "<br>" + aviso.complemento;
+	        			
+	        			table = table + "<tr><td>"+avTexto+"</td></tr>";
+	        		}
+	        		
+	        		// Parte 2
+	        		table = table + "<tr><td><h3><p style='text-decoration: underline'>PARTE DOIS - ANÁLISE DO TEMPO EM " + dataAnaliseP2 + "</p></h3></td></tr>";
+	    			table = table + "<tr><td>" + activeMeteoro.texto_analise_p2 + "</td></tr>";
+	        		
+	    			
+	    			// Parte 3
+	        		table = table + "<tr><td><h3><p style='text-decoration: underline'>PARTE TRÊS - PREVISÃO DO TEMPO VÁLIDA DE "+validadePrevisaoP3+"</p></h3></td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Alfa ( de Arroio Chuí até Cabo de Santa Marta )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.aa+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Bravo ( de Cabo de Santa Marta até Cabo Frio - Oceânica )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.ab+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Charlie ( de Cabo de Santa Marta até Cabo Frio - Costeira )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.ac+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Delta ( de Cabo Frio até Caravelas )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.ad+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Echo ( de Caravelas até Salvador )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.ae+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Foxtrot ( de Salvador até Natal )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.af+"</td></tr>";
+
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Golf ( de Natal até São Luis )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.ag+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Hotel ( de São Luis até Cabo Orange )</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.ah+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Sul Oceânica</p></td></tr>";
+	        		table = table + "<tr><td><p style='font-weight:bold'> &nbsp; > Sul de 30ºS </p></td></tr>";
+	        		table = table + "<tr><td><p style='font-weight:bold'> &nbsp; &nbsp; > Oeste de 030ºW </p></td></tr>";	        		
+	        		table = table + "<tr><td>"+activeMeteoro.s30o30+"</td></tr>";
+	        		table = table + "<tr><td><p style='font-weight:bold'> &nbsp; &nbsp; > Leste de 030ºW </p></td></tr>";	        		
+	        		table = table + "<tr><td>"+activeMeteoro.s30l30+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'> &nbsp; > Entre 25ºS 30ºE </p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.e25e30+"</td></tr>";
+
+	        		table = table + "<tr><td><p style='font-weight:bold'> &nbsp; > Norte de 25ºS </p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.n25+"</td></tr>";
+	        		
+	        		table = table + "<tr><td><p style='font-weight:bold'>Área Norte Oceânica</p></td></tr>";
+	        		table = table + "<tr><td>"+activeMeteoro.ano+"</td></tr>";
+
+	        		
+	        		table = table + "</table>";                
+	                
+	        		var meteoroWindow = Ext.getCmp('meteoroWindow'); 
+	        		if( !meteoroWindow ) {	
+	        			meteoroWindow = Ext.create('MCLM.view.meteoro.MeteoroWindow');
+	        		}	
+	        		meteoroWindow.show();
+	        		meteoroWindow.activeMeteoro = activeMeteoro;
+	                
+	        		$("#meteoroBody").html( table );
+	                
+	                
+	                
+	            },
+	            failure: function(conn, response, options, eOpts) {
+	                //
+	            }            
+	        
+	        });	  			
+			
+			
+		},
+		
+		
+		
 		sateliteAnimate : function() {
 			var	sateliteWindow = Ext.getCmp('sateliteWindow');
 			if ( !sateliteWindow ) {

@@ -51,6 +51,7 @@ public class SaveAvisoAction extends BasicActionClass {
 				}
 				
 				try {
+					@SuppressWarnings("unused")
 					int avisoId_I = Integer.valueOf( avisoId );
 				} catch ( Exception e ) {
 					System.out.println("Inserindo.... ");

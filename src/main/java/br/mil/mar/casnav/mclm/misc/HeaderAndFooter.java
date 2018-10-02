@@ -18,6 +18,7 @@ public class HeaderAndFooter extends PdfPageEventHelper {
 
     private static Font headerFont = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK );
     private static Font headerMiniFont = new Font(FontFamily.HELVETICA, 9, Font.NORMAL, BaseColor.BLACK );
+    private static Font headerMediumFont = new Font(FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK );
     private static Font footerFont = new Font(FontFamily.COURIER, 8, 0, BaseColor.GRAY );
 
     @Override
@@ -32,14 +33,18 @@ public class HeaderAndFooter extends PdfPageEventHelper {
         
         // Header
         
-        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Ministério da Defesa",headerFont), 
+        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Marinha do Brasil",headerFont), 
                 (document.right() - document.left()) / 2 + document.leftMargin(), document.top() + 10,    0);
         
-        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Estado Maior Conjunto das Forças Armadas",headerMiniFont), 
+        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Diretoria de Hidrografia de Navegação",headerMiniFont), 
                 (document.right() - document.left()) / 2 + document.leftMargin(), document.top() -5,      0);        
         
-        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Chefia de Logística e Mobilização",headerMiniFont), 
+        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Centro de Hidrografia da Marinha",headerMiniFont), 
                 (document.right() - document.left()) / 2 + document.leftMargin(), document.top() -20,    0);        
+
+        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Previsão 24 Horas",headerMediumFont), 
+                (document.right() - document.left()) / 2 + document.leftMargin(), document.top() -35,    0);        
+        
         
         // Footer
         String version = "";
@@ -49,13 +54,13 @@ public class HeaderAndFooter extends PdfPageEventHelper {
         	//
         }
         
-        ColumnText.showTextAligned(cb, Element.ALIGN_LEFT, new Phrase("Módulo de Cenários Logísticos e de Mobilização " + version,footerFont), 
+        ColumnText.showTextAligned(cb, Element.ALIGN_LEFT, new Phrase("SC-MET " + version,footerFont), 
                 document.leftMargin() - 1, document.bottom() - 20, 0);
         
         ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, new Phrase( strDate + " " + strTime ,footerFont), 
                 document.right() - 2 , document.bottom() - 10, 0);
 
-        ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, new Phrase("Sistema APOLO",footerFont), 
+        ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, new Phrase("*******",footerFont), 
                 document.right() - 2 , document.bottom() - 20, 0);
         
         

@@ -2,31 +2,21 @@ package br.mil.mar.casnav.mclm.misc;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import br.mil.mar.casnav.mclm.persistence.entity.Meteoro;
 
 
 public class PDFCreator {
-	private List<PDFLayerProperties> pdfLayerProperties;
 
 	private Paragraph getParagraph( float left, String text, Font footerFont ) {
         Paragraph pp = new Paragraph( text, footerFont );
@@ -35,13 +25,11 @@ public class PDFCreator {
 	}
 	
 	
-	public String gerarPDF( String path, int idCenario, User user, String bbox ) throws Exception {
-		//WebClient wc = new WebClient();
+	public String gerarPDF( Meteoro met ) throws Exception {
 		
+		String outputFolder = PathFinder.getInstance().getPath() + "/tempmaps/";
+		new File(outputFolder).mkdirs();
 		
-		pdfLayerProperties = new ArrayList<PDFLayerProperties>();
-		
-		String outputFolder = PathFinder.getInstance().getPath() + "/tempmaps/" + path;
 		String pdfName = UUID.randomUUID().toString().toUpperCase().substring(0,8) + ".pdf";
 		String pdfFullPath = outputFolder + File.separator + pdfName;
 		
@@ -55,197 +43,112 @@ public class PDFCreator {
 		
 		writer.setPageEvent( new HeaderAndFooter() );
 
-		String brasaoDefesaPath = PathFinder.getInstance().getPath() + "/img/defesa.png";
+		
+		String brasaoDefesaPath = PathFinder.getInstance().getPath() + "/img/dhn.gif";
 		Image brasaoDefesa = Image.getInstance( brasaoDefesaPath );
-		brasaoDefesa.scaleAbsolute(60,60);	
+		brasaoDefesa.scaleAbsolute(55,70);	
 		brasaoDefesa.setAbsolutePosition( 35, PageSize.A4.getHeight() - brasaoDefesa.getScaledHeight() - 15);
 		document.add(brasaoDefesa);
+		
 
-		Font footerFont = new Font(FontFamily.COURIER, 8, 0, BaseColor.BLACK );
-		
-		
-		List<Image> thumbs = new ArrayList<Image>();
-		document.add( new Paragraph("\n\n\n\n") );
-		if ( idCenario > -1 ) {
-			/*
-			SceneryService ss = new SceneryService();
-			Scenery scenery = ss.getScenery( idCenario );
-			
-			String sceneryName = scenery.getSceneryName();
-			String sceneryDescription = scenery.getDescription();
-			
-	        SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
-	        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
-	        Date sceneryDate = scenery.getCreationDate();
-	        String strDate = sdfDate.format(sceneryDate);
-	        String strTime = sdfTime.format(sceneryDate);			
-			String author = scenery.getUserName();
-			String sceneryCenter = scenery.getMapCenterHDMS();
-			
-			String baseMap = scenery.getBaseMap();
-			
-			document.add( getParagraph(0, "Cenário      : " + sceneryName , footerFont) );
-			document.add( getParagraph(0, "Descrição    : " + sceneryDescription , footerFont) );
-			document.add( getParagraph(0, "Centro       : " + sceneryCenter , footerFont) );
-			document.add( getParagraph(0, "Criado em    : " + strDate + " " + strTime , footerFont) );
-			document.add( getParagraph(0, "Criado por   : " + author , footerFont) );
-			document.add( getParagraph(0, "Impresso por : " + user.getName() , footerFont) );
-			document.add( new Paragraph("\n") );
-			document.add( getParagraph(0, "Camadas: " , footerFont) );
-			
-			for ( SceneryNode node : scenery.getNodes() ) {
-				NodeData theLayer = node.getLayer();
-				String layerAlias = theLayer.getLayerAlias();
-
-				if ( theLayer.getLayerType() == LayerType.FEI  ) {
-					String metadados = theLayer.getFeicao().getMetadados();
-					pdfLayerProperties.add( getLayerProperties( metadados, layerAlias ) );
-				}
-				
-				String thumbPath = outputFolder + "/" + node.getLayer().getSerialId() + ".png";
-				String error = "";
-				try {
-					Image thumb = Image.getInstance( thumbPath );
-					thumbs.add( thumb );
-				} catch ( Exception e ) {
-					error = " ( Sem miniatura )";
-				}
-				document.add( getParagraph(0, "    " + node.getLayerAlias() + error , footerFont) );
-			}
-			
-			String thumbPathFei = outputFolder + "/feicoes.png";
-			String thumbPathMain = outputFolder + "/mclm_landlayer_cmoa.png";
-			if ( new File(thumbPathFei).exists() ) {
-				Image thumbFei = Image.getInstance( thumbPathFei );
-				document.add( getParagraph(0, "    Camada de Feições", footerFont) );
-				thumbs.add( thumbFei );
-			}
-			
-			if ( new File(thumbPathMain).exists() ) {
-				Image thumbMain = Image.getInstance( thumbPathMain );
-				document.add( getParagraph(0, "    " + baseMap + " ( Camada de fundo )", footerFont) );
-				thumbs.add( thumbMain );
-			}
-			*/
-		} else {
-			document.add( getParagraph(0, "Nenhum cenário definido." , footerFont) );
-		}
-		
-		document.add( new Paragraph("\n\n") );
-		
-		String imageFileName = outputFolder + "/result.png";
-		Image image = Image.getInstance( imageFileName );
-		float scaler = ((document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin() ) / image.getWidth()) * 100;
-		image.scalePercent(scaler);			
-		image.setAlignment(Image.MIDDLE);
-		image.setBorder( Image.BOX );
-		image.setBorderWidth(1);
-		document.add(image);
+		Font smallFont = new Font(FontFamily.TIMES_ROMAN , 8, 0, BaseColor.BLACK );
+		Font smallHeader = new Font(FontFamily.TIMES_ROMAN , 9, Font.BOLD, BaseColor.BLACK );
+		Font headerFont = new Font(FontFamily.TIMES_ROMAN , 10, Font.BOLD, BaseColor.BLACK );
+		headerFont.setStyle("underline");
 		
 		document.add( new Paragraph("\n\n\n\n") );
 		
+		document.add( getParagraph(0, met.getTexto(), headerFont) );
+		document.add( getParagraph(0, " * Data e hora referenciada ao Meridiano de Greenwich - HMG." , smallFont) );
+		document.add( getParagraph(0, " * Pressão em Hectopascal - HPA." , smallFont) );
+		document.add( getParagraph(0, " * Vento na escala Beaufort." , smallFont) );
+		document.add( getParagraph(0, " * Ondas em metros." , smallFont) );
 
-		float thumbScaler;
-		float offsetX = 10;
-		float offsetY = 60;
-		int y = 0;
-		int x = 0;
-		int h = 0;
-		Paragraph p = new Paragraph();
-		for ( Image thumb : thumbs ) {
-			thumbScaler = ((document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin() ) / image.getWidth()) * 20;
-			thumb.scalePercent(thumbScaler);
-			thumb.setBorder( Image.BOX );
-			thumb.setBorderWidth(1);
-			p.add( new Chunk(thumb, (offsetX * x) + 35, offsetY * y) );
-			x++;
-			h++;
-			if ( h == 4 ) {
-				h = 0;
-				x = 0;
-				y--;
-			}
-		}
-		document.add( p );
+		document.add( new Paragraph("\n") );
+		document.add( getParagraph(0, "PARTE UM - AVISOS DE MAU TEMPO", headerFont) );
+		document.add( new Paragraph("\n") );
 		
-
-		if ( pdfLayerProperties.size() > 0 ) {
-			Font boldNormalFont = new Font(FontFamily.HELVETICA, 9, Font.BOLD, BaseColor.BLACK );
-			
-			for ( PDFLayerProperties layerProperties : pdfLayerProperties ) {
-				document.newPage();
-				document.add(brasaoDefesa);
-				
-				Paragraph layerNameParagraph = new Paragraph( "Atributos da Camada \"" + layerProperties.getLayerName() + "\"", boldNormalFont ); 
-				layerNameParagraph.setAlignment( Element.ALIGN_CENTER );
-				
-				document.add( new Paragraph("\n") );
-				document.add( layerNameParagraph );
-				document.add( new Paragraph("\n\n") );		
-
-				PdfPTable table = new PdfPTable(2);
-				for ( PDFLayerProperty property :  layerProperties.getProperties() ) {
-					PdfPCell cellKey = new PdfPCell(new Phrase( property.getKey() , footerFont));
-					PdfPCell valueKey = new PdfPCell(new Phrase( property.getValue() , footerFont));
-					
-					table.addCell( cellKey );
-					table.addCell( valueKey );
-				}
-				
-				document.add(table);
-			}
-			
-			
-		}
+		document.add( getParagraph(0, "PARTE DOIS - ANÁLISE DO TEMPO EM " + met.getDataAnaliseP2(), headerFont) );
+		document.add( new Paragraph("\n") );
+		document.add( getParagraph(0, met.getTextoAnaliseP2() , smallFont) );
+		document.add( new Paragraph("\n") );
 		
+		document.add( getParagraph(0, "PARTE TRÊS - PREVISÃO DO TEMPO VÁLIDA DE " + met.getValidadePrevisaoP3(), headerFont) );
+		document.add( new Paragraph("\n") );		
+		document.add( getParagraph(0, "Área Alfa ( de Arroio Chuí até Cabo de Santa Marta )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAa() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Bravo ( de Cabo de Santa Marta até Cabo Frio - Oceânica )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAb() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Charlie ( de Cabo de Santa Marta até Cabo Frio - Costeira )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAc() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Delta ( de Cabo Frio até Caravelas )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAd() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Echo ( de Caravelas até Salvador )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAe() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Foxtrot ( de Salvador até Natal )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAf() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Golf ( de Natal até São Luis )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAg() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Hotel ( de São Luis até Cabo Orange )", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAh() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(0, "Área Sul Oceânica", smallHeader) );
+
+		document.add( getParagraph(5, "Sul de 30ºS", smallHeader) );
+		document.add( getParagraph(10, "Oeste de 030ºW", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getS30o30() , smallFont) );
+		document.add( new Paragraph("\n") );		
+		
+		document.add( getParagraph(10, "Leste de 030ºW", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getS30l30() , smallFont) );
+		document.add( new Paragraph("\n") );		
+
+		document.add( getParagraph(5, "Entre 25ºS 30ºE", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getE25e30() , smallFont) );
+		document.add( new Paragraph("\n") );		
+
+		
+		document.add( getParagraph(5, "Norte de 25ºS", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getN25() , smallFont) );
+		document.add( new Paragraph("\n") );		
+
+		
+		document.add( getParagraph(0, "Área Norte Oceânica", smallHeader) );
+		document.add( new Paragraph("") );
+		document.add( getParagraph(10, met.getAno() , smallFont) );
+		document.add( new Paragraph("\n") );		
 		
 		document.close();
 		writer.close();
-		return pdfFullPath;
+		return pdfName;
 	}
 	
-	private PDFLayerProperties getLayerProperties( String metadados, String layerAlias ) {
-		// Um metadado é uma FeatureCollection ( Um objeto com um array de Features )
-		JSONObject fc = new JSONObject( metadados );
-		JSONArray features = fc.getJSONArray("features");
-		// So tem uma feature por feicao.
-		JSONObject feature = features.getJSONObject(0);
-		// Por fim, pega as propriedades da feature
-		JSONObject properties = feature.getJSONObject("properties");
-
-		PDFLayerProperties layerProperties = new PDFLayerProperties( layerAlias ); 
-		for( Iterator<String> key=properties.keys(); key.hasNext(); ) {
-			String theKey = key.next();
-
-			// Caso especial para atributos de feições criadas a partir de camadas WMS
-			if ( theKey.equals("attributes") ) {
-				JSONArray attrs = properties.getJSONArray( theKey );
-
-				for( int x=0; x< attrs.length(); x++ ) {
-					JSONObject attr = attrs.getJSONObject(x);
-					
-					String originalName = attr.getString("originalName");
-					String translatedName = attr.getString("translatedName");
-					Object value = attr.get("value");
-					
-					String theName = originalName;
-					if ( !translatedName.equals("" ) ) {
-						theName = translatedName;
-					}
-					
-					PDFLayerProperty pdflp = new PDFLayerProperty( theName, String.valueOf( value ) );
-					layerProperties.addProperty( pdflp );
-				} 
-				
-			} else {
-				Object value = properties.get( theKey );
-				PDFLayerProperty pdflp = new PDFLayerProperty( theKey, String.valueOf( value ) );
-				layerProperties.addProperty( pdflp );
-			}
-		}
-		
-		return layerProperties;
-		
-	}
 
 }

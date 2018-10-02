@@ -17,6 +17,8 @@ Ext.define('MCLM.view.meteoro.MeteoroBarWindow', {
        'MCLM.view.meteoro.MeteoroBar',
     ],	
     
+    activeMeteoro : null,
+    
     controller : 'meteoroBarController',
 	
     items: [{

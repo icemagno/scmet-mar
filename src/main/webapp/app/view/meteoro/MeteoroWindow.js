@@ -10,12 +10,13 @@ Ext.define('MCLM.view.meteoro.MeteoroWindow', {
 	bodyStyle:"background:#FFFFFF;",
 	resizable: false,
 
-	
 	requires: [
 	   'MCLM.view.meteoro.TopBar',
-	   'MCLM.view.meteoro.BodyPanel'
+	   'MCLM.view.meteoro.BodyPanel',
+	   'MCLM.view.meteoro.MeteoroBarController',
 	],
 	  	
+	controller : 'meteoroBarController',
 	
 	layout: 'border',
 	constrain: true,
@@ -27,5 +28,40 @@ Ext.define('MCLM.view.meteoro.MeteoroWindow', {
     },{
         xtype: 'bodyPanel'
     }],
+    
+    
+    listeners: {
+
+    	close : function() {
+    		Ext.tip.QuickTipManager.unregister('showP3ItemID');    	
+    		Ext.tip.QuickTipManager.unregister('exportPdfID');    	
+    		Ext.tip.QuickTipManager.unregister('editMeteoroID');    	
+    	},
+    	
+	    afterrender : function ( cmp ) {
+        	
+    	    Ext.tip.QuickTipManager.register({
+    	        target: 'showP3ItemID',
+    	        title: 'Editar Parte Três',
+    	        text: 'Edita os itens da parte três deste meteoromarinha.',
+    	        width: 180,
+    	        dismissDelay: 5000 
+    	    },{
+    	        target: 'exportPdfID',
+    	        title: 'Exportar para PDF',
+    	        text: 'Exporta para PDF / Imprime.',
+    	        width: 180,
+    	        dismissDelay: 5000 
+    	    },{
+    	        target: 'editMeteoroID',
+    	        title: 'Editar Meteoromarinha',
+    	        text: 'Edita este Meteoromarinha.',
+    	        width: 180,
+    	        dismissDelay: 5000 
+    	    });
+    	    
+	    },    
+    	
+    }	
 	
 });

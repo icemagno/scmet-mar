@@ -3,6 +3,7 @@ package br.mil.mar.casnav.mclm.persistence.services;
 import java.util.List;
 
 import br.mil.mar.casnav.mclm.misc.Configurator;
+import br.mil.mar.casnav.mclm.misc.PDFCreator;
 import br.mil.mar.casnav.mclm.misc.UserTableEntity;
 import br.mil.mar.casnav.mclm.persistence.entity.Aviso;
 import br.mil.mar.casnav.mclm.persistence.entity.Meteoro;
@@ -34,6 +35,22 @@ public class MeteoroService {
 	
 	public Meteoro createNewMeteoro( String texto ) throws Exception {
 		Meteoro met = new Meteoro( texto );
+		met.setRascunho( false );
+		met.setAtivo( true );
+		met.setAa(" ");
+		met.setAb(" ");
+		met.setAc(" ");
+		met.setAd(" ");
+		met.setAe(" ");
+		met.setAf(" ");
+		met.setAg(" ");
+		met.setAh(" ");
+		met.setAso(" ");
+		met.setAno(" ");
+		met.setE25e30(" ");
+		met.setN25(" ");
+		met.setS30l30(" ");
+		met.setS30o30(" ");
 		return repo.insertMeteoro(met);
 	}
 	
@@ -48,7 +65,7 @@ public class MeteoroService {
     	
         String sql = "select row_to_json(meteoromarinha) as meteoro " + 
         		"from( " + 
-        		"  select met.id_meteoro, met.arquivo, met.ativo, met.texto, " + 
+        		"  select met.*, " + 
         		"  (select json_agg(avisos) " + 
         		"  from ( " + 
         		"    select numero,titulo,validade,texto,complemento,emissao from avisos where ativo = true order by numero" + 
@@ -69,7 +86,30 @@ public class MeteoroService {
 			result = ute.getData("meteoro");
 		}    	
 		return result;
-    }	
+    }
+
+	public void addUpdateP3(String area, String texto) throws Exception {
+		System.out.println( area );
+		System.out.println( texto );
+		
+		String sql = "update meteoro set " + area + " = '" + texto +  "' where ativo = true";
+
+    	Configurator cfg = Configurator.getInstance();
+		String connectionString = "jdbc:postgresql://" + cfg.getDatabaseAddr() +
+				":" + cfg.getDatabasePort() + "/" + cfg.getDatabaseName();
+		GenericService gs = new GenericService( connectionString, cfg.getUserName(), cfg.getPassword()  );
+		
+		gs.execute( sql );		
+		
+	}
+
+	public String exportToPDF() throws Exception {
+		PDFCreator pdf = new PDFCreator();
+		
+		Meteoro met = getActiveMeteoro();
+		
+		return pdf.gerarPDF( met );
+	}	
 	
     
 }

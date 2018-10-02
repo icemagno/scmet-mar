@@ -8,7 +8,7 @@ Ext.define('MCLM.view.meteoro.BodyPanel', {
     
     bodyBorder: false,
     border:false,
-
+    scrollable: true,
     
     html : '<div id="meteoroBody" style="border-top:1px dotted #cacaca;width:100%;height:100%"></div>',
     
