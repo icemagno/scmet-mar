@@ -17,18 +17,6 @@ public class MeteoroService {
 		this.repo = new MeteoroRepository();
 	}
 	
-	public void generate() throws Exception {
-		Meteoro met = getActiveMeteoro();
-		
-		System.out.println( met.getTexto() );
-		
-		System.out.println("Parte Um : ");
-		for ( Aviso aviso : met.getParteUm() ) {
-			System.out.println( "  > " + aviso.getTitulo() );
-		}		
-		
-	}
-
 	public Meteoro getActiveMeteoro() throws Exception {
 		return repo.getActiveMeteoro();
 	}
@@ -51,6 +39,9 @@ public class MeteoroService {
 		met.setN25(" ");
 		met.setS30l30(" ");
 		met.setS30o30(" ");
+		met.setDataAnaliseP2("[EDITE]");
+		met.setTextoAnaliseP2("[EDITE]");
+		met.setValidadePrevisaoP3("[EDITE]");
 		return repo.insertMeteoro(met);
 	}
 	
@@ -89,9 +80,6 @@ public class MeteoroService {
     }
 
 	public void addUpdateP3(String area, String texto) throws Exception {
-		System.out.println( area );
-		System.out.println( texto );
-		
 		String sql = "update meteoro set " + area + " = '" + texto +  "' where ativo = true";
 
     	Configurator cfg = Configurator.getInstance();
@@ -105,10 +93,40 @@ public class MeteoroService {
 
 	public String exportToPDF() throws Exception {
 		PDFCreator pdf = new PDFCreator();
+		Meteoro met = getActiveMeteoro();
+		AvisoService as = new AvisoService();
+		List<Aviso> avisos = as.getList();
+		return pdf.gerarPDF( met, avisos );
+	}
+
+	public void updateMeteoro(String meteoroTexto, String dataAnaliseP2, String validadePrevisaoP3, String textoAnaliseP2 ) throws Exception {
+		String sql = "update meteoro set texto = '" + meteoroTexto +  "', texto_analise_p2 = '"+textoAnaliseP2+"',  data_analise_p2 = '"+dataAnaliseP2+"', validade_previsao_p3 = '"+validadePrevisaoP3+"' where ativo = true";
+
+    	Configurator cfg = Configurator.getInstance();
+		String connectionString = "jdbc:postgresql://" + cfg.getDatabaseAddr() +
+				":" + cfg.getDatabasePort() + "/" + cfg.getDatabaseName();
+		GenericService gs = new GenericService( connectionString, cfg.getUserName(), cfg.getPassword()  );
 		
+		gs.execute( sql );		
+		
+	}
+
+	public void novoMeteoro() throws Exception {
+		String pdf = exportToPDF();
 		Meteoro met = getActiveMeteoro();
 		
-		return pdf.gerarPDF( met );
+		String sql = "update meteoro set ativo = false, arquivo = '"+pdf+"' where ativo = true";
+
+    	Configurator cfg = Configurator.getInstance();
+		String connectionString = "jdbc:postgresql://" + cfg.getDatabaseAddr() +
+				":" + cfg.getDatabasePort() + "/" + cfg.getDatabaseName();
+		GenericService gs = new GenericService( connectionString, cfg.getUserName(), cfg.getPassword()  );
+		
+		gs.execute( sql );			
+		
+		
+		createNewMeteoro( "[EDITE]" ); 
+		
 	}	
 	
     

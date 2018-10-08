@@ -2,6 +2,7 @@ package br.mil.mar.casnav.mclm.misc;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 import java.util.UUID;
 
 import com.itextpdf.text.BaseColor;
@@ -13,6 +14,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import br.mil.mar.casnav.mclm.persistence.entity.Aviso;
 import br.mil.mar.casnav.mclm.persistence.entity.Meteoro;
 
 
@@ -25,7 +27,7 @@ public class PDFCreator {
 	}
 	
 	
-	public String gerarPDF( Meteoro met ) throws Exception {
+	public String gerarPDF( Meteoro met, List<Aviso> avisos ) throws Exception {
 		
 		String outputFolder = PathFinder.getInstance().getPath() + "/tempmaps/";
 		new File(outputFolder).mkdirs();
@@ -33,7 +35,13 @@ public class PDFCreator {
 		String pdfName = UUID.randomUUID().toString().toUpperCase().substring(0,8) + ".pdf";
 		String pdfFullPath = outputFolder + File.separator + pdfName;
 		
-		Document document = new Document( PageSize.A4 );
+        float left = 30;
+        float right = 30;
+        float top = 110;
+        float bottom = 40;   		
+		
+		
+		Document document = new Document( PageSize.A4, left, right, top, bottom );
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream( pdfFullPath ) );
 		document.open();
 		document.addCreator("APOLO");
@@ -44,7 +52,7 @@ public class PDFCreator {
 		writer.setPageEvent( new HeaderAndFooter() );
 
 		
-		String brasaoDefesaPath = PathFinder.getInstance().getPath() + "/img/dhn.gif";
+		String brasaoDefesaPath = PathFinder.getInstance().getPath() + "/img/marinha-logo.png";
 		Image brasaoDefesa = Image.getInstance( brasaoDefesaPath );
 		brasaoDefesa.scaleAbsolute(55,70);	
 		brasaoDefesa.setAbsolutePosition( 35, PageSize.A4.getHeight() - brasaoDefesa.getScaledHeight() - 15);
@@ -56,8 +64,6 @@ public class PDFCreator {
 		Font headerFont = new Font(FontFamily.TIMES_ROMAN , 10, Font.BOLD, BaseColor.BLACK );
 		headerFont.setStyle("underline");
 		
-		document.add( new Paragraph("\n\n\n\n") );
-		
 		document.add( getParagraph(0, met.getTexto(), headerFont) );
 		document.add( getParagraph(0, " * Data e hora referenciada ao Meridiano de Greenwich - HMG." , smallFont) );
 		document.add( getParagraph(0, " * Pressão em Hectopascal - HPA." , smallFont) );
@@ -67,6 +73,21 @@ public class PDFCreator {
 		document.add( new Paragraph("\n") );
 		document.add( getParagraph(0, "PARTE UM - AVISOS DE MAU TEMPO", headerFont) );
 		document.add( new Paragraph("\n") );
+		
+		for( Aviso aviso : avisos ) {
+		
+			document.add( getParagraph(0, "Aviso NR " + aviso.getNumero(), smallHeader) );
+			document.add( new Paragraph("") );
+			document.add( getParagraph(10, aviso.getTitulo() , smallFont) );
+			document.add( getParagraph(10, "Emitido às " + aviso.getTitulo() , smallFont) );
+			document.add( getParagraph(10, "Área : " + aviso.getArea() , smallFont) );
+			document.add( getParagraph(10, aviso.getTexto() , smallFont) );
+			document.add( getParagraph(10, "Válido até " + aviso.getValidade() , smallFont) );
+			document.add( new Paragraph("\n") );				
+			
+			
+		}
+				
 		
 		document.add( getParagraph(0, "PARTE DOIS - ANÁLISE DO TEMPO EM " + met.getDataAnaliseP2(), headerFont) );
 		document.add( new Paragraph("\n") );

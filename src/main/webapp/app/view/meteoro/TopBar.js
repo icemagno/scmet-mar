@@ -15,7 +15,7 @@ Ext.define('MCLM.view.meteoro.TopBar', {
     
     items: [{
 	    iconCls: 'draw-icon',
-        handler: 'editMeteoroID',
+        handler: 'editMeteoro',
 	    width: MCLM.Globals.btnWidth,
 	    height: MCLM.Globals.btnHeight,
 	    id : 'editMeteoroID',
@@ -33,6 +33,13 @@ Ext.define('MCLM.view.meteoro.TopBar', {
 	    width: MCLM.Globals.btnWidth,
 	    height: MCLM.Globals.btnHeight,
 	    id : 'exportPdfID',
+        xtype: 'button',
+    },{
+	    iconCls: 'bluerss-icon',
+        handler: 'newMeteoro',
+	    width: MCLM.Globals.btnWidth,
+	    height: MCLM.Globals.btnHeight,
+	    id : 'newMeteoroID',
         xtype: 'button',
     }],
 

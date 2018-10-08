@@ -1,18 +1,53 @@
 package br.mil.mar.casnav.mclm.persistence.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="avisos") 
 public class Aviso {
-	private String id;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_aviso")
+	private int idAviso;
+	
+	@Column(length=100, name = "area")
+	private String area;
+	
+	@Column(length=50, name = "numero")
 	private String numero;
+	
+	@Column(length=100, name = "titulo")
 	private String titulo;
+	
+	@Column(columnDefinition = "TEXT")
 	private String texto;
+	
+	@Column(length=100, name = "validade")
 	private String validade;
+	
+	@Column(length=250, name = "complemento")
 	private String complemento;
+	
+	@Transient
 	private String geometria;
+	
+	@Column(length=100, name = "emissao")
 	private String emissao;
 
-	public Aviso(String id, String numero, String titulo, String texto, String validade, String complemento,
+	public Aviso() {
+		//
+	}
+	
+	public Aviso(String area, String numero, String titulo, String texto, String validade, String complemento,
 			String geometria, String emissao) {
-		this.id = id;
+		this.area = area;
 		this.numero = numero;
 		this.titulo = titulo;
 		this.texto = texto;
@@ -22,13 +57,6 @@ public class Aviso {
 		this.emissao = emissao;
 	}	
 	
-	public String getId() {
-		return id;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public String getNumero() {
 		return numero;
@@ -85,5 +113,27 @@ public class Aviso {
 	public void setEmissao(String emissao) {
 		this.emissao = emissao;
 	}
+
+
+	public int getIdAviso() {
+		return idAviso;
+	}
+
+
+	public void setIdAviso(int idAviso) {
+		this.idAviso = idAviso;
+	}
+
+
+	public String getArea() {
+		return area;
+	}
+
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	
 	
 }

@@ -58,6 +58,12 @@ Ext.define('MCLM.view.meteoro.MeteoroWindow', {
     	        text: 'Edita este Meteoromarinha.',
     	        width: 180,
     	        dismissDelay: 5000 
+    	    },{
+    	        target: 'newMeteoroID',
+    	        title: 'Novo Meteoromarinha',
+    	        text: 'Fecha o Meteoromarinha ativo e cria um novo com os mesmos elementos ativos.',
+    	        width: 180,
+    	        dismissDelay: 5000 
     	    });
     	    
 	    },    

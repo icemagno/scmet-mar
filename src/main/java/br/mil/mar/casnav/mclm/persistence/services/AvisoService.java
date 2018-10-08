@@ -19,8 +19,17 @@ import com.rometools.rome.io.SyndFeedOutput;
 
 import br.mil.mar.casnav.mclm.misc.Configurator;
 import br.mil.mar.casnav.mclm.misc.UserTableEntity;
+import br.mil.mar.casnav.mclm.persistence.entity.Aviso;
+import br.mil.mar.casnav.mclm.persistence.exceptions.DatabaseConnectException;
+import br.mil.mar.casnav.mclm.persistence.repository.AvisoRepository;
 
 public class AvisoService {
+	private AvisoRepository repo;
+	
+	public AvisoService() throws DatabaseConnectException  {
+		this.repo = new AvisoRepository();
+	}	
+	
 
 	/*
     private String mountSql( String parameters, String sourceView ) {
@@ -192,6 +201,10 @@ public class AvisoService {
 		
 		gs.execute( sql );
 		
+	}
+	
+	public List<Aviso> getList() throws Exception {
+		return repo.getList();
 	}
 	
 }

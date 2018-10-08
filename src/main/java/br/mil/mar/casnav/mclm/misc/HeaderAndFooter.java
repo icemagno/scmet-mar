@@ -31,19 +31,23 @@ public class HeaderAndFooter extends PdfPageEventHelper {
         String strDate = sdfDate.format(now);
         String strTime = sdfTime.format(now);
         
+        float p1 = document.top() + 60;
+        float p2 = document.top() + 50;
+        float p3 = document.top() + 40;
+        float p4 = document.top() + 30;
+        float p5 = document.top() + 20;        
+        
+        
         // Header
         
         ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Marinha do Brasil",headerFont), 
-                (document.right() - document.left()) / 2 + document.leftMargin(), document.top() + 10,    0);
-        
-        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Diretoria de Hidrografia de Navegação",headerMiniFont), 
-                (document.right() - document.left()) / 2 + document.leftMargin(), document.top() -5,      0);        
+                (document.right() - document.left()) / 2 + document.leftMargin(), p1,    0);
         
         ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Centro de Hidrografia da Marinha",headerMiniFont), 
-                (document.right() - document.left()) / 2 + document.leftMargin(), document.top() -20,    0);        
+                (document.right() - document.left()) / 2 + document.leftMargin(), p2,    0);        
 
         ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, new Phrase("Previsão 24 Horas",headerMediumFont), 
-                (document.right() - document.left()) / 2 + document.leftMargin(), document.top() -35,    0);        
+                (document.right() - document.left()) / 2 + document.leftMargin(), p4,    0);        
         
         
         // Footer
@@ -55,12 +59,15 @@ public class HeaderAndFooter extends PdfPageEventHelper {
         }
         
         ColumnText.showTextAligned(cb, Element.ALIGN_LEFT, new Phrase("SC-MET " + version,footerFont), 
+                document.leftMargin() - 1, document.bottom() - 10, 0);        
+         
+        ColumnText.showTextAligned(cb, Element.ALIGN_LEFT, new Phrase("Página " + writer.getPageNumber() ,footerFont), 
                 document.leftMargin() - 1, document.bottom() - 20, 0);
         
         ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, new Phrase( strDate + " " + strTime ,footerFont), 
                 document.right() - 2 , document.bottom() - 10, 0);
 
-        ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, new Phrase("*******",footerFont), 
+        ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, new Phrase("Centro de Hidrografia da Marinha",footerFont), 
                 document.right() - 2 , document.bottom() - 20, 0);
         
         

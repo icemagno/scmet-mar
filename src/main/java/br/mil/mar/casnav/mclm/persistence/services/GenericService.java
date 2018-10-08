@@ -43,8 +43,13 @@ public class GenericService {
 	}
 
 	public void execute( String sql ) throws Exception {
-		rep.execute(sql);
-		rep.closeSession();
+		
+		try {
+			rep.execute(sql);
+		} finally {
+			rep.closeSession();
+		}
+		
 	}
 	
 	@SuppressWarnings("rawtypes")
