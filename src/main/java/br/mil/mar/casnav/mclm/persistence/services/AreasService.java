@@ -55,5 +55,26 @@ public class AreasService {
     	
 		return result;
     }
+
+
+
+	public String getAreasMundo() throws Exception {
+    	Configurator cfg = Configurator.getInstance();
+    	String sql = mountSql("nome_longo_pais", "paises");
+    	String result = "";
+    	
+		String connectionString = "jdbc:postgresql://" + cfg.getDatabaseAddr() +
+				":" + cfg.getDatabasePort() + "/" + cfg.getDatabaseName();
+		GenericService gs = new GenericService( connectionString, cfg.getUserName(), cfg.getPassword()  );
+		
+		List<UserTableEntity> utes = gs.genericFetchList( sql );
+		
+		if ( utes.size() > 0 ) {
+			UserTableEntity ute = utes.get(0);
+			result = ute.getData("featurecollection");
+		}    	
+    	
+		return result;
+	}
 	
 }

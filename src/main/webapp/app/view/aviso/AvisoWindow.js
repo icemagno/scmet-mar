@@ -26,7 +26,7 @@ Ext.define('MCLM.view.aviso.AvisoWindow', {
     	
     	
     	close : function() {
-    		//
+    		MCLM.DrawHelper.finish();
     	},
 	    
 

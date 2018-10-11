@@ -796,7 +796,7 @@ Ext.define('MCLM.Map', {
 			// ===================================================
 			
 			MCLM.Map.map = new ol.Map({
-				layers: [ MCLM.Map.baseLayer ],
+				layers: [  ],
 				target: container,
 				renderer: 'canvas',
 			    loadTilesWhileAnimating: true,
@@ -849,6 +849,8 @@ Ext.define('MCLM.Map', {
 				view: MCLM.Map.theView
 			});	
 			
+			
+			MCLM.Map.loadAreasMundo();
 			
 			MCLM.Map.graticule = new ol.control.Graticule({ 
 				step: 0.1, 
@@ -910,6 +912,7 @@ Ext.define('MCLM.Map', {
 			
 			
 			MCLM.Map.loadAreasMauTempo();
+			
 			
 		},
 		
@@ -2720,7 +2723,131 @@ Ext.define('MCLM.Map', {
 			});
 			return result;
 		},		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		loadAreasMundo : function() {
+
+			var getStyle = function( feature, resolution ) {
+				var resultStyles = [];
+				var featureGeomType = feature.getGeometry().getType();
+				var props = feature.getProperties();
+				var label = props.nome_longo_pais;
+
+	        	var hexColor = "#3067ff";
+	        	var newColor = ol.color.asArray(hexColor);
+	        	newColor = newColor.slice();
+	        	newColor[3] = 0.2;				
+				
+				
+	        	var mundoStyle = new ol.style.Style({
+					fill: new ol.style.Fill({
+						color: newColor,
+					}),
+					stroke: new ol.style.Stroke({
+						color:  "#3067ff",
+						width:  1, 
+					}),
+		            text: new ol.style.Text({
+		                text: label,
+		                scale : 1,
+		                textAlign : 'center', 
+		                textBaseline : 'middle', 
+		                stroke: new ol.style.Stroke({
+		                	color: "#ffffff",
+		                	width: 2
+		                }),				                
+		                fill: new ol.style.Fill({
+		                    color: "#000000"
+		                }),
+		            })
+					
+				});			
+
+	        	resultStyles.push( mundoStyle );
+	        	return resultStyles;
+			};	
+	        
+			
+			
+            Ext.Ajax.request({
+                url: 'getAreasMundo',
+                method: 'get',
+                success: function (response, opts) {
+                    var featuresObj = Ext.decode(response.responseText);
+                    var vectorSource = new ol.source.Vector();
+
+                    if( featuresObj.features === null ) {
+                        return true;
+                    }
+
+                    var features = new ol.format.GeoJSON().readFeatures(featuresObj, {
+                        featureProjection: 'EPSG:4326'
+                    });
+                    
+                    for ( var i = 0; i < features.length; i++ ) {
+                        features[i].set('layerName','areasMundo');
+                        vectorSource.addFeature( features[i] );
+                    }                     
+                    
+                    var vectorLayer = new ol.layer.Vector({
+                        source: vectorSource,
+                        style: getStyle
+                    }); 
+                    
+                    vectorLayer.set('name', 'areasMundo');
+                    vectorLayer.set('alias', 'areasMundo');
+                    vectorLayer.set('serialId', 'areasMundo');
+                    
+                    //MCLM.Map.theView.fit(vectorSource.getExtent(), {duration: 1500, maxZoom: 12});
+                    MCLM.Map.removeLayerByName('areasMundo');
+                    MCLM.Map.map.addLayer(vectorLayer); 
+                    
+                },
+                failure: function(conn, response, options, eOpts) {
+                    //
+                }            
+            
+            });			
+			
+			
+		},		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 });
